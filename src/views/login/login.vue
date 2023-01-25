@@ -37,8 +37,8 @@ export default {
   data () {
     return {
       loading: false,
-      email: 'kaue.sobral19@gmail.com',
-      password: 'olimpo12'
+      email: '',
+      password: ''
     }
   },
   components: {
