@@ -1,3 +1,4 @@
+
 @import '../../../node_modules/@fortawesome/fontawesome-free/css/all.css';
 @import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
@@ -12,7 +13,7 @@
 .card,
 .modal-content
 .form-control {
-    border-radius: 0 !important;
+    border-radius: 3px !important;
 }
 .btn-primary{
   background-color: $featured;
