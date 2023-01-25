@@ -1,5 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import FirebaseVue from './firebase'
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+app.config.globalProperties.$firebase = FirebaseVue
+app.use(router).mount('#app')
