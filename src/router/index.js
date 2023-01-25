@@ -5,13 +5,20 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    meta: {
+      title: 'home',
+      icon: "house",
+    },
+    component: {
+      HomeView
+    },
   },
   {
     path: '/login',
     name: 'login',
     component: () => import('../views/login/login')
-  }
+  },
+
 ]
 
 const router = createRouter({

@@ -1,13 +1,15 @@
 <template>
-
-<layoutNavigation></layoutNavigation>
-
-<!-- usar referencia abaixo para router  -->
-  <!-- <nav>
-    <router-link to="/"></router-link> |
-    <router-link to="/about"></router-link>
-  </nav> -->
-  <router-view/>
+ <div class="container-fluid">
+    <div class="row">
+      <div class="col-2 navigation-sidebar">
+        <h1 class="app-tittle">Dev Tech</h1>
+        <layoutNavigation />
+      </div>
+      <div class="col mx-3">
+        <router-view />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -31,23 +33,16 @@ export default {
 
 <style lang="scss">
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-}
-
-nav {
-    padding: 30px;
-
-    a {
-        font-weight: bold;
-        color: #2c3e50;
-
-        &.router-link-exact-active {
-            color: #42b983;
-        }
+  min-height: 100vh;
+  color: var(--light);
+  background-color: var(--darker);
+  .navigation-sidebar{
+    background-color: var(--dark-medium);
+    .app-tittle{
+      font-size: 20pt;
+      margin-top: 10px;
+      text-align: center;
     }
+  }
 }
 </style>
