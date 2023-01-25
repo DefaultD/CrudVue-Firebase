@@ -1,6 +1,6 @@
 <template>
     <baseSpinner></baseSpinner>
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="isLogged">
         <div class="row">
             <div class="col-2 navigation-sidebar">
                 <h1 class="app-tittle">Dev Tech</h1>
@@ -11,6 +11,7 @@
             </div>
         </div>
     </div>
+    <router-view v-else />
 </template>
 
 <script>
