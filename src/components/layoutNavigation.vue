@@ -1,6 +1,6 @@
 <template>
   <nav class="nav flex-column ">
-    <div class="d-flex justify-content-center">
+    <div class="justify-content-center">
       <RouterLink :key="i" exact exact-active-class="active" class="nav-link" :to="{ name: router.name }"
         v-for="(router, i) in routerLinks">
         <i class="fa" :class="`fa-${router.meta.icon}`"></i>

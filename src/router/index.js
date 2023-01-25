@@ -4,10 +4,10 @@ import HomeView from '../views/HomeView.vue'
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'Clientes',
     meta: {
-      title: 'home',
-      icon: "house",
+      title: 'Clientes',
+      icon: "people-group",
     },
     component: {
       HomeView
