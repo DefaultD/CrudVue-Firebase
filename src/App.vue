@@ -11,12 +11,21 @@
 </template>
 
 <script>
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import layoutNavigation from '@/components/layoutNavigation.vue'
 export default { 
   components: {
     layoutNavigation
-  }
+  },
+  mounted () {
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+      window.uid = user ? user.uid : null
+      this.isLogged = !!user
+      this.$router.push({ name: window.uid ? 'home' : 'login' })
+      this.loading = false
+    })
+  },
 }
 </script>
 
