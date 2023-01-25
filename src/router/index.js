@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const routes = [
   {
@@ -9,9 +8,7 @@ const routes = [
       title: 'Clientes',
       icon: "people-group",
     },
-    component: {
-      HomeView
-    },
+    component: () => import('../views/HomeView')
   },
   {
     path: '/login',
