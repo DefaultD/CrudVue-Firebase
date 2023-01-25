@@ -1,10 +1,24 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+
+<layoutNavigation></layoutNavigation>
+
+<!-- usar referencia abaixo para router  -->
+  <!-- <nav>
+    <router-link to="/"></router-link> |
+    <router-link to="/about"></router-link>
+  </nav> -->
   <router-view/>
 </template>
+
+<script>
+
+import layoutNavigation from '@/components/layoutNavigation.vue'
+export default { 
+  components: {
+    layoutNavigation
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
