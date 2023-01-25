@@ -1,14 +1,56 @@
 <template>
-    <h1>Hello World</h1>
-  </template>
-  
-  <script>
-  // @ is an alias to /src
-//   import HelloWorld from '@/components/HelloWorld.vue'
-  
-  export default {
-    name: 'layoutNavigation',
-   
+  <nav class="nav flex-column ">
+    <div class="d-flex justify-content-center">
+      <RouterLink :key="i" exact exact-active-class="active" class="nav-link" :to="{ name: router.name }"
+        v-for="(router, i) in routerLinks">
+        <i class="fa" :class="`fa-${router.meta.icon}`"></i>
+         {{ router.meta.title }}
+         
+         
+      </RouterLink>
+    </div>
+  </nav>
+</template>
+
+<script>
+
+export default {
+  name: 'layoutNavigation',
+
+  mounted () {
+    console.log(this.$router)
+  },
+
+  computed: {
+    routerLinks() {
+      return this.$router.options.routes.filter(r => r.name !== 'login')
+    }
   }
-  </script>
+}
+</script>
+
+<style lang="scss" scoped>
+
+
+.nav {
   
+  margin-left: -15px;
+  width: calc(100% + 27px);
+  height: calc(100vh - 50px);
+
+  .nav-link {
+    color: var(--white);
+    transition: .4s;
+
+    &.active {
+      color: var(--featured);
+      background-color: transparent;
+    }
+
+    &:hover {
+      color: var(--dark);
+      background-color: var(--featured);
+    }
+  }
+}
+</style>
