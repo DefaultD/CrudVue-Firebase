@@ -3,12 +3,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    name: 'Clientes',
+    name: 'customer',
     meta: {
       title: 'Clientes',
       icon: "people-group",
     },
-    component: () => import('../views/HomeView')
+    component: () => import('../views/customer/viewCustomer')
   },
   {
     path: '/login',
