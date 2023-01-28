@@ -16,71 +16,72 @@
       <div class="modal-body">
         <!-- lista -->
         <ul id="title-color" class="list-group list-group-horizontal">
-  <li class="list-group-item">Nome</li>
-  <li class="list-group-item">Cliente PJ ou PF</li>
-  <li class="list-group-item">Número Cadastral</li>
-  <li class="list-group-item">Consulta da base de clientes</li>
-  <li class="list-group-item">Email</li>
-  <li class="list-group-item">Celular</li>
-  <li class="list-group-item">Endereço</li>
-  <li class="list-group-item">Profissão</li>
-  <li class="list-group-item">Data de nascimento</li>
+  <li class="list-group-item form-control-lg">Nome</li>
+  <li class="list-group-item form-control-lg">PJ ou PF</li>
+  <li class="list-group-item form-control-lg">Número Cadastral</li>
+  <li class="list-group-item form-control-lg">Consulta</li>
+  <li class="list-group-item form-control-lg">Email</li>
+  <li class="list-group-item form-control-lg">Celular</li>
+  <li class="list-group-item form-control-lg">Endereço</li>
+  <li class="list-group-item form-control-lg">Profissão</li>
+  <li class="list-group-item form-control-lg">Data de nascimento</li>
 </ul>
 <ul class="list-group list-group-horizontal-sm">
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+
   
 </ul>
 <ul class="list-group list-group-horizontal-md">
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
 </ul>
 <ul class="list-group list-group-horizontal-lg">
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
 </ul>
 <ul class="list-group list-group-horizontal-xl">
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
 </ul>
 <ul class="list-group list-group-horizontal-xxl">
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
-  <li class="list-group-item">Preencher</li>
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input v-model="name" class="form-control form-control-lg" type="text">
 </ul>
       </div>
       <div class="modal-footer">
