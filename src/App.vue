@@ -1,5 +1,5 @@
 <template>
-    <baseSpinner></baseSpinner>
+    <!-- <baseSpinner></baseSpinner> -->
     <div class="container-fluid" v-if="isLogged">
         <div class="row">
             <div class="col-2 navigation-sidebar">
@@ -18,7 +18,7 @@
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import layoutNavigation from '@/components/layoutNavigation.vue'
-import baseSpinner from '@/components/global/baseSpinner.vue'
+// import baseSpinner from '@/components/global/baseSpinner.vue'
 
 export default {
 
@@ -31,7 +31,7 @@ export default {
     
     components: {
         layoutNavigation,
-        baseSpinner,
+        // baseSpinner,
     },
     mounted() {
         console.log(this)
@@ -39,7 +39,7 @@ export default {
         onAuthStateChanged(auth, (user) => {
             window.uid = user ? user.uid : null
             this.isLogged = !!user
-            this.$router.push({ name: window.uid ? 'Clientes' : 'login' })
+            this.$router.push({ name: window.uid ? 'customer' : 'login' })
             this.loading = false
             this.$root.$emit('baseSpinner::hide')
 
@@ -49,6 +49,7 @@ export default {
 
 
 </script>
+
 
 <style lang="scss">
 #app {
