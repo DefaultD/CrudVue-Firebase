@@ -1,43 +1,74 @@
 <template>
-    <div class="card h-100 border-0 w-100" style="width: 18rem;">
+    <div class="card h-100 border-0 w-100" style="width: 18rem; color: var(--darker);">
+        <div class="card-header">
+            <h5 class="card-title">{{ `${data.name}` }}</h5>
+        </div>
         <div class="card-body w-100">
-            <h5 class="card-title">{{ `#${data.id} - ${data.name} • ${data.type}` }}</h5>
-            <div class="row justify-content-between">
-                <div class="col">
-                    <h6 class="card-subtitle mb-2 text-muted">{{ data.phone }}</h6>
+
+            <div class="row">
+
+                <div class="col-6">
+                    <h6 class="card-subtitle text-muted">{{ data.lead }}</h6>
                 </div>
-                <div class="col-2">
-                    <h6 class="card-subtitle mb-2 text-muted">{{ data.lead }}</h6>
+                <div class="col-6 text-end">
+                    <h6 class="card-subtitle  text-muted">{{ data.type }}</h6>
                 </div>
             </div>
-            <hr/>
-            <p class="card-text text-muted">{{ `Email - ${data.email}` }}</p>
-            <p class="card-text text-muted">{{
-                data.complement ? `Endereço - ${data.Address} • ${data.complement}` :
-                    `Endereço - ${data.Address}`
-            }}</p>
-            <p class="card-text text-muted">{{ `Cadastro - ${data.createdAt}` }}</p>
-            <p class="card-text text-muted">{{ `Descrição - ${data.description}` }}</p>
+            <hr />
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">{{ `Telefone - ${data.phone}` }}</h6>
+            </div>
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">{{ `Email - ${data.email}` }}</h6>
+            </div>
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">{{
+                    data.complement ? `Endereço - ${data.address} • ${data.complement}` :
+                        `Endereço - ${data.address}`
+                }}</h6>
+            </div>
+            <div class="col">
+                <h6 class="card-subtitle mb-2 text-muted">{{ `Descrição - ${data.description}` }}</h6>
+            </div>
 
         </div>
         <div class="card-footer row justify-content-between">
             <div class="col pt-2" style="color: var(--darker);">
-                Criado • {{data.createdAt}}
+                Criado • {{ formatDate(data.createdAt.seconds) }}
             </div>
-            <div class="col-1 me-1" style="padding-right: var(--bs-card-spacer-y) var(--bs-card-spacer-x)">
-                <button class="btn"><i class="fa-regular fa-sun"></i></button>
+            <div class="col-2 text-end">
+                <button class="btn" @click="openModal = !openModal"><i class="fa-regular fa-sun"></i></button>
             </div>
         </div>
     </div>
+    <layoutCreateNewClient :showModal="openModal" :editCustomer="data"/>
 </template>
 <script>
+import layoutCreateNewClient from '@/components/layout/layoutCreateNewClient.vue'
+
 export default {
     data() {
         return {
-
+            openModal: false
         }
     },
+    components: {
+        layoutCreateNewClient
+    },
+    methods: {
+        convertTimestampForDate(timestamp) {
+            let date = new Date(timestamp)
+            return date
+        },
+        formatDate(time) {
+            let date = this.convertTimestampForDate(time)
+            let d = date.getDay()
+            let m = date.getMonth()
+            let y = date.getFullYear()
 
+            return `${d}/${m}/${y}`
+        }
+    },
     props: {
         data: Object
     }

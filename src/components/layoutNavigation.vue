@@ -18,7 +18,6 @@ export default {
   name: 'layoutNavigation',
 
   mounted () {
-    console.log(this.$router)
   },
 
   computed: {

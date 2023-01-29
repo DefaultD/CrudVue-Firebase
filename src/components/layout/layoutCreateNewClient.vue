@@ -1,12 +1,14 @@
 <template>
     <form @submit.prevent="submit()">
-        <div class="modal fade" :class="{ show: modal }" :style="{ display: modal ? 'block' : 'none' }">
+        <div class="modal fade" :class="{ show: modal }" :style="{ display: modal ? 'block' : 'none' }"
+            style="color: var(--darker);">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLiveLabel">Adicionar cliente</h5>
-                        <button type="button" @click="closeModal()" class="btn"><i  @click="closeModal()" class="fa-regular fa-circle-xmark"></i></button>
-                            
+                        <button type="button" @click="closeModal()" class="btn"><i @click="closeModal()"
+                                class="fa-regular fa-circle-xmark"></i></button>
+
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -26,7 +28,7 @@
                                 </div>
                                 <div>
                                     <label for="">Endereço:</label>
-                                    <input required v-model="formCustomer.Address" type="text" class="form-control">
+                                    <input required v-model="formCustomer.address" type="text" class="form-control">
                                 </div>
                                 <div>
                                     <label for="">Complemento:</label>
@@ -38,17 +40,17 @@
                                     <label for="">Tipo:</label>
                                     <select class="form-select" v-model="formCustomer.type"
                                         aria-label="Default select example">
-                                        <option value="1">Pessoa fisica</option>
-                                        <option value="2">Pessoa juridica</option>
+                                        <option value="Pessoa fisica">Pessoa fisica</option>
+                                        <option value="Pessoa juridica">Pessoa juridica</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label for="">Lead:</label>
                                     <select class="form-select" v-model="formCustomer.lead"
                                         aria-label="Default select example">
-                                        <option value="1">Cliente antigo</option>
-                                        <option value="2">Campanhas</option>
-                                        <option value="3">Indicação</option>
+                                        <option value="Cliente antigo">Cliente antigo</option>
+                                        <option value="Campanhas">Campanhas</option>
+                                        <option value="Indicação">Indicação</option>
                                     </select>
                                 </div>
                                 <div>
@@ -71,8 +73,8 @@
 </template>
 
 <script>
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 export default {
-
     data() {
         return {
             modal: false,
@@ -84,11 +86,14 @@ export default {
                 email: '',
                 lead: '',
                 phone: '',
-                Address: '',
+                address: '',
                 complement: '',
                 description: ''
             }
         }
+    },
+    mounted() {
+        this.load()
     },
     methods: {
         closeModal() {
@@ -106,7 +111,30 @@ export default {
                 description: ''
             }
         },
-        submit() {
+
+        load() {
+            console.log(this.editCustomer)
+            if (this.editCustomer) {
+                this.formCustomer = this.editCustomer
+            }
+        },
+        async submit() {
+            try {
+                const docRef = await addDoc(collection(this.$firebase, 'Clientes'), {
+                    name: this.formCustomer.name,
+                    type: this.formCustomer.type,
+                    email: this.formCustomer.email,
+                    lead: this.formCustomer.lead,
+                    phone: this.formCustomer.phone,
+                    address: this.formCustomer.address,
+                    complement: this.formCustomer.complement || '',
+                    description: this.formCustomer.description || '',
+                    createdAt: serverTimestamp()
+                })
+                console.log('Document written with ID: ', docRef.id)
+            } catch (e) {
+                console.error('Error adding document: ', e)
+            }
             console.log(this.formCustomer)
         },
         handlePhone(event) {
@@ -131,6 +159,7 @@ export default {
 
     props: {
         showModal: Boolean,
+        editCustomer: Object
     }
 
 }
