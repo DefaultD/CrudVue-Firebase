@@ -1,16 +1,15 @@
-
 $dark: #000 !important;
-$darker: rgb(32, 4, 83) !important;
-$dark-medium: rgb(66, 6, 122) !important;
+$darker: #111 !important;
+$dark-medium: #333 !important;
 $dark-low: #666 !important;
 $light-low: #999 !important;
 $light-medium: #ddd !important;
 $ligther: #ddd !important;
-$light: rgb(0, 0, 0) !important;
+$light: #fff !important;
 
 
-$featured: #fd5cad !important;
-$featured-dark: #df1c7d !important;
+$featured: #ff9900 !important;
+$featured-dark: #d68100 !important;
 
 :root {
   --dark: #{$dark};
