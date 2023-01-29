@@ -3,7 +3,7 @@
         <div class="col">
             <h3>Clientes</h3>
         </div>
-        <button type="button" @click="openModal = !openModal" class="btn btn-outline-primary col-2 me-3">
+        <button type="button" @click="openModalCliente = !openModalCliente" class="btn btn-outline-primary col-2 me-3">
             Novo cliente
         </button>
     </div>
@@ -19,10 +19,12 @@
     </div>
     <div class="mt-2 row">
         <div :key="customer" v-for="customer of customersData" class="my-3 col-lg-4 rounded">
-            <infoCard :data="customer" />
+            <infoCard :data="customer" @showModal="openModal = !openModal"/>
+            <layoutCreateNewClient :showModal="openModal" @reload="load()" :editCustomer="customer"/>
         </div>
     </div>
-    <layoutCreateNewClient :showModal="openModal" />
+
+    <layoutCreateNewClient :showModal="openModalCliente" @reload="load()"/>
 </template>
 
 <script>
@@ -34,16 +36,21 @@ export default {
     name: "viewCustomer",
 
     mounted() {
-        this.getCustomers()
+        this.load()
     },
     data() {
         return {
             openModal: false,
+            openModalCliente: false,
             customersData: []
         }
     },
 
     methods: {
+        async load() {
+            this.customersData = []
+            await this.getCustomers()
+        },
         async getCustomers() {
             let q = await query(collection(this.$firebase, 'Clientes'))
             let querySnapshot = await getDocs(q)

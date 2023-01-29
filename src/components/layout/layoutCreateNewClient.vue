@@ -8,7 +8,6 @@
                         <h5 class="modal-title" id="exampleModalLiveLabel">Adicionar cliente</h5>
                         <button type="button" @click="closeModal()" class="btn"><i @click="closeModal()"
                                 class="fa-regular fa-circle-xmark"></i></button>
-
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -60,9 +59,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" @click="closeModal()" class="btn btn-secondary">Fechar</button>
-                        <button class="btn btn-primary">Incluir novo cliente</button>
+                    <div class="modal-footer" :class="editCustomer ? `justify-content-between` : `justify-content-end`">
+                        <button type="button" v-if="editCustomer" @click="deleteCustomer()" class="btn btn-outline-primary"><i
+                                class="fa-solid fa-trash"></i></button>
+                        <div>
+                            <button type="button" @click="closeModal()" class="btn btn-secondary mx-2">Fechar</button>
+                            <button class="btn btn-primary">{{ editCustomer? `Editar cliente` :
+                            `Incluir novo cliente`}}</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,9 +75,8 @@
         </div>
     </form>
 </template>
-
 <script>
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc, deleteDoc } from "firebase/firestore";
 export default {
     data() {
         return {
@@ -82,7 +85,7 @@ export default {
                 name: '',
                 type: '',
                 id: '',
-                createdAt: '',
+                createdAt: new Date(),
                 email: '',
                 lead: '',
                 phone: '',
@@ -96,6 +99,26 @@ export default {
         this.load()
     },
     methods: {
+        validate() {
+            if (!this.formCustomer.name) {
+                throw Error('Por favor preencha o nome')
+            }
+            if (!this.formCustomer.type) {
+                throw Error('Por favor preencha o tipo de cliente')
+            }
+            if (!this.formCustomer.email) {
+                throw Error('Por favor preencha o email')
+            }
+            if (!this.formCustomer.lead) {
+                throw Error('Por favor preencha a origem do lead')
+            }
+            if (!this.formCustomer.phone) {
+                throw Error('Por favor preencha o telefone')
+            }
+            if (!this.formCustomer.address) {
+                throw Error('Por favor preencha o endereço')
+            }
+        },
         closeModal() {
             this.modal = false
             this.formCustomer = {
@@ -113,29 +136,52 @@ export default {
         },
 
         load() {
-            console.log(this.editCustomer)
             if (this.editCustomer) {
                 this.formCustomer = this.editCustomer
             }
         },
-        async submit() {
+        async deleteCustomer() {
             try {
-                const docRef = await addDoc(collection(this.$firebase, 'Clientes'), {
-                    name: this.formCustomer.name,
-                    type: this.formCustomer.type,
-                    email: this.formCustomer.email,
-                    lead: this.formCustomer.lead,
-                    phone: this.formCustomer.phone,
-                    address: this.formCustomer.address,
-                    complement: this.formCustomer.complement || '',
-                    description: this.formCustomer.description || '',
-                    createdAt: serverTimestamp()
-                })
-                console.log('Document written with ID: ', docRef.id)
-            } catch (e) {
-                console.error('Error adding document: ', e)
+                await deleteDoc(doc(this.$firebase, "Clientes", this.editCustomer.id))
+            } catch (error) {
+                console.log(error)
             }
-            console.log(this.formCustomer)
+            this.$emit('reload')
+            this.modal = false
+        },
+        async submit() {
+            if (this.editCustomer) {
+                const docRef = doc(this.$firebase, "Clientes", this.editCustomer.id)
+                console.log(`iuiui`)
+                try {
+                    this.validate()
+                    await setDoc(docRef, this.editCustomer)
+                } catch (e) {
+                    console.error('Error adding document: ', e)
+                }
+            } else {
+                try {
+                    console.log(`iuiui`)
+                    this.validate()
+                    await addDoc(collection(this.$firebase, 'Clientes'), this.formCustomer)
+                } catch (e) {
+                    console.error('Error adding document: ', e)
+                }
+            }
+            this.formCustomer = {
+                name: '',
+                type: '',
+                id: '',
+                createdAt: '',
+                email: '',
+                lead: '',
+                phone: '',
+                address: '',
+                complement: '',
+                description: ''
+            }
+            this.$emit('reload')
+            this.modal = false
         },
         handlePhone(event) {
             let input = event.target

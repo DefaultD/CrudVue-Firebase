@@ -37,36 +37,30 @@
                 Criado • {{ formatDate(data.createdAt.seconds) }}
             </div>
             <div class="col-2 text-end">
-                <button class="btn" @click="openModal = !openModal"><i class="fa-regular fa-sun"></i></button>
+                <button class="btn" @click="openModal()"><i class="fa-regular fa-sun"></i></button>
             </div>
         </div>
     </div>
-    <layoutCreateNewClient :showModal="openModal" :editCustomer="data"/>
 </template>
 <script>
-import layoutCreateNewClient from '@/components/layout/layoutCreateNewClient.vue'
 
 export default {
-    data() {
-        return {
-            openModal: false
-        }
-    },
-    components: {
-        layoutCreateNewClient
-    },
     methods: {
-        convertTimestampForDate(timestamp) {
-            let date = new Date(timestamp)
-            return date
+        openModal(){
+            this.$emit('showModal')
         },
+        // convertTimestampForDate(timestamp) {
+        //     let date = new Date(timestamp)
+        //     return date
+        // },
         formatDate(time) {
-            let date = this.convertTimestampForDate(time)
-            let d = date.getDay()
-            let m = date.getMonth()
-            let y = date.getFullYear()
+            // let date = new Date(time)
+            console.log(time)
+            // let d = date.getDay()
+            // let m = date.getMonth()
+            // let y = date.getFullYear()
 
-            return `${d}/${m}/${y}`
+            // return `${d}/${m}/${y}`
         }
     },
     props: {
