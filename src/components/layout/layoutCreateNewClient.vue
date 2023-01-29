@@ -1,100 +1,137 @@
 <template>
-   <!-- Button trigger -->
-<button type="button" class="btn btn-outline-primary col-2 me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Tabela de clientes
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Clientes</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-        <!-- lista -->
-        <ul id="title-color" class="list-group list-group-horizontal">
-  <li class="list-group-item form-control-lg">Nome</li>
-  <li class="list-group-item form-control-lg">PJ ou PF</li>
-  <li class="list-group-item form-control-lg">Número Cadastral</li>
-  <li class="list-group-item form-control-lg">Consulta</li>
-  <li class="list-group-item form-control-lg">Email</li>
-  <li class="list-group-item form-control-lg">Celular</li>
-  <li class="list-group-item form-control-lg">Endereço</li>
-  <li class="list-group-item form-control-lg">Profissão</li>
-  <li class="list-group-item form-control-lg">Data de nascimento</li>
-</ul>
-<ul class="list-group list-group-horizontal-sm">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-
-  
-</ul>
-<ul class="list-group list-group-horizontal-md">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-</ul>
-<ul class="list-group list-group-horizontal-lg">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-</ul>
-<ul class="list-group list-group-horizontal-xl">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-</ul>
-<ul class="list-group list-group-horizontal-xxl">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-  <input  class="form-control form-control-lg" type="text">
-</ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+    <form @submit.prevent="submit()">
+        <div class="modal fade" :class="{ show: modal }" :style="{ display: modal ? 'block' : 'none' }">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLiveLabel">Adicionar cliente</h5>
+                        <button type="button" @click="closeModal()" class="btn"><i  @click="closeModal()" class="fa-regular fa-circle-xmark"></i></button>
+                            
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <div>
+                                    <label for="">Nome:</label>
+                                    <input required v-model="formCustomer.name" type="text" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="">Email:</label>
+                                    <input required v-model="formCustomer.email" type="email" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="">Telefone:</label>
+                                    <input @input="handlePhone" required v-model="formCustomer.phone" type="text"
+                                        class="form-control">
+                                </div>
+                                <div>
+                                    <label for="">Endereço:</label>
+                                    <input required v-model="formCustomer.Address" type="text" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="">Complemento:</label>
+                                    <input v-model="formCustomer.complement" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group col-6">
+                                <div>
+                                    <label for="">Tipo:</label>
+                                    <select class="form-select" v-model="formCustomer.type"
+                                        aria-label="Default select example">
+                                        <option value="1">Pessoa fisica</option>
+                                        <option value="2">Pessoa juridica</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="">Lead:</label>
+                                    <select class="form-select" v-model="formCustomer.lead"
+                                        aria-label="Default select example">
+                                        <option value="1">Cliente antigo</option>
+                                        <option value="2">Campanhas</option>
+                                        <option value="3">Indicação</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="">Descrição:</label>
+                                    <textarea v-model="formCustomer.description" type="text" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" @click="closeModal()" class="btn btn-secondary">Fechar</button>
+                        <button class="btn btn-primary">Incluir novo cliente</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop fade" :class="{ show: modal }" :style="{ display: modal ? 'block' : 'none' }">
+        </div>
+    </form>
 </template>
 
 <script>
 export default {
+
+    data() {
+        return {
+            modal: false,
+            formCustomer: {
+                name: '',
+                type: '',
+                id: '',
+                createdAt: '',
+                email: '',
+                lead: '',
+                phone: '',
+                Address: '',
+                complement: '',
+                description: ''
+            }
+        }
+    },
+    methods: {
+        closeModal() {
+            this.modal = false
+            this.formCustomer = {
+                name: '',
+                type: '',
+                id: '',
+                createdAt: '',
+                email: '',
+                lead: '',
+                phone: '',
+                address: '',
+                complement: '',
+                description: ''
+            }
+        },
+        submit() {
+            console.log(this.formCustomer)
+        },
+        handlePhone(event) {
+            let input = event.target
+            input.value = this.phoneMask(input.value)
+        },
+
+        phoneMask(value) {
+            if (!value) return ""
+            value = value.replace(/\D/g, '')
+            value = value.replace(/(\d{2})(\d)/, "($1) $2")
+            value = value.replace(/(\d)(\d{4})$/, "$1-$2")
+            return value
+        }
+    },
+
+    watch: {
+        showModal() {
+            this.modal = true
+        }
+    },
+
+    props: {
+        showModal: Boolean,
+    }
 
 }
 </script>
