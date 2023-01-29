@@ -1,6 +1,6 @@
 <template>
    <!-- Button trigger -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-outline-primary col-2 me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Tabela de clientes
 </button>
 
@@ -27,61 +27,61 @@
   <li class="list-group-item form-control-lg">Data de nascimento</li>
 </ul>
 <ul class="list-group list-group-horizontal-sm">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
 
   
 </ul>
 <ul class="list-group list-group-horizontal-md">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
 </ul>
 <ul class="list-group list-group-horizontal-lg">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
 </ul>
 <ul class="list-group list-group-horizontal-xl">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
 </ul>
 <ul class="list-group list-group-horizontal-xxl">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
-  <input v-model="name" class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
+  <input  class="form-control form-control-lg" type="text">
 </ul>
       </div>
       <div class="modal-footer">

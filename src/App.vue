@@ -6,7 +6,7 @@
                 <h1 class="app-tittle">Dev Tech</h1>
                 <layoutNavigation />
             </div>
-            <div class="col mx-3">
+            <div class="col mt-3">
                 <router-view />
             </div>
         </div>

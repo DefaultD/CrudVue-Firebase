@@ -8,7 +8,7 @@ const routes = [
       title: 'Clientes',
       icon: "people-group",
     },
-    component: () => import('../views/customer/viewCustomer')
+    component: () => import('../views/customer/viewCustomers')
   },
   {
     path: '/login',
