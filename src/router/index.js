@@ -16,6 +16,17 @@ const routes = [
     component: () => import('../views/login/login')
   },
 
+  {
+    path: '/viewProduct',
+    name: 'viewProduct',
+    meta: {
+
+      title: 'Produtos',
+      icon: "cart-shopping",
+     component: () => import('../views/viewProduct/viewProduct')
+    },
+  }
+
 ]
 
 const router = createRouter({
