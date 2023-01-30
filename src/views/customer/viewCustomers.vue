@@ -19,8 +19,7 @@
     </div>
     <div class="mt-2 row">
         <div :key="customer" v-for="customer of customersData" class="my-3 col-lg-4 rounded">
-            <infoCard :data="customer" @showModal="openModal = !openModal"/>
-            <layoutCreateNewClient :showModal="openModal" @reload="load()" :editCustomer="customer"/>
+            <infoCard :data="customer" @reload="load()"/>
         </div>
     </div>
 

@@ -60,8 +60,8 @@
                         </div>
                     </div>
                     <div class="modal-footer" :class="editCustomer ? `justify-content-between` : `justify-content-end`">
-                        <button type="button" v-if="editCustomer" @click="deleteCustomer()" class="btn btn-outline-primary"><i
-                                class="fa-solid fa-trash"></i></button>
+                        <button type="button" v-if="editCustomer" @click="deleteCustomer()"
+                            class="btn btn-outline-primary"><i class="fa-solid fa-trash"></i></button>
                         <div>
                             <button type="button" @click="closeModal()" class="btn btn-secondary mx-2">Fechar</button>
                             <button class="btn btn-primary">{{ editCustomer? `Editar cliente` :
@@ -85,7 +85,7 @@ export default {
                 name: '',
                 type: '',
                 id: '',
-                createdAt: new Date(),
+                createdAt: '',
                 email: '',
                 lead: '',
                 phone: '',
@@ -199,6 +199,7 @@ export default {
 
     watch: {
         showModal() {
+            this.load()
             this.modal = true
         }
     },
