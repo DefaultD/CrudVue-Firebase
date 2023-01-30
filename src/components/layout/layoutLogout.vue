@@ -11,7 +11,6 @@ export default {
   name: 'layoutLogout',
 
   methods: {
-    // eslint-disable-next-line space-before-function-paren
     logout() {
       const auth = getAuth()
       signOut(auth)
