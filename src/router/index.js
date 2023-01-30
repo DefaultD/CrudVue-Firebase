@@ -18,14 +18,16 @@ const routes = [
 
   {
     path: '/viewProduct',
-    name: 'viewProduct',
+    name: 'product',
     meta: {
 
       title: 'Produtos',
       icon: "cart-shopping",
-     component: () => import('../views/viewProduct/viewProduct')
     },
-  }
+     component: () => import('../views/product/viewProduct')
+    },
+  
+
 
 ]
 
