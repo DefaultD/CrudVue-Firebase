@@ -54,8 +54,8 @@ export default {
 <style lang="scss">
 #app {
     min-height: 100vh;
-    color: var(--light);
-    background-color: var(--darker);
+    color: var(--featured);
+    background-color: var( --light-medium);
 
     .navigation-sidebar {
         background-color: var(--dark-medium);
