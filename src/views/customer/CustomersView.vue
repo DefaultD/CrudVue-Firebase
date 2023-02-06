@@ -3,12 +3,6 @@
         <div class="col">
             <h3>Clientes</h3>
         </div>
-        <button type="button" @click="openModalCliente = !openModalCliente" class="btn btn-outline-primary col-2 me-3">
-            Novo cliente
-        </button>
-    </div>
-    <hr />
-    <div class="row justify-content-end">
         <div class="col-3">
             <div class="input-group  flex-nowrap">
                 <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
@@ -16,6 +10,13 @@
                     aria-describedby="addon-wrapping">
             </div>
         </div>
+        <button type="button" @click="openModalCliente = !openModalCliente" class="btn btn-outline-primary col-2 h-100 me-3">
+            Novo cliente
+        </button>
+    </div>
+    <hr />
+    <div class="row justify-content-end">
+      
     </div>
     <div class="mt-2 row">
         <div :key="customer" v-for="customer of customersData" class="my-3 col-lg-4 rounded">
