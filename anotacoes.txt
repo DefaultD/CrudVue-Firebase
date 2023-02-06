@@ -1,0 +1,5 @@
+OS (Garantia/ Venda/ Visita)
+
+
+Novo modulo - 
+associar o agendamento a um cliente ou associar a um pedido fechado 

@@ -10,14 +10,44 @@
                     aria-describedby="addon-wrapping">
             </div>
         </div>
-        <button type="button h-100" @click="openModalCliente = !openModalCliente"
-            class="btn btn-outline-primary col-2 h-100 me-3 pb-2">
-            Novo cliente
+        <button type="button h-100" @click="goToLayoutOrder()" class="btn btn-outline-primary col-2 h-100 me-3 pb-2">
+            Novo pedido
         </button>
     </div>
     <hr />
     <div class="mt-2 row">
+        <EasyDataTable :headers="columns" :items="rows" />
     </div>
 </template>
 <script>
+import { EasyDataTable } from "vue3-easy-data-table";
+
+export default {
+    name: "viewCustomer",
+
+    components: {
+        EasyDataTable
+    },
+    data() {
+        return {
+            columns: [
+                { text: "Id", value: "id" },
+                { text: "Cliente", value: "Cliente" },
+                { text: "Status", value: "Status" },
+                { text: "Pagamento", value: "Pagamento" },
+                { text: "Parcelas", value: "Parcelas" },
+                { text: "Desconto", value: "Desconto", sortable: true },
+                { text: "Data", value: "Data", width: 200 },
+                { text: "Total", value: "Total" },
+            ],
+            rows: [
+            ]
+        }
+    },
+    methods: {
+        goToLayoutOrder() {
+            this.$router.push('/OrderView')
+        },
+    }
+}
 </script>
