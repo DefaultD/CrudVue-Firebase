@@ -6,16 +6,6 @@
                     <label for="">Nome do cliente:</label>
                     <input disabled required v-model="formOrder.name" type="text" class="form-control">
                 </div>
-                <div>
-                    <div>
-                        <label for="">Produto:</label>
-                        <button type="button" class="btn ">
-                            <i class="fa-regular fa-pen-to-square mx-2"></i>
-                        </button>
-
-                    </div>
-                    <textarea disabled required v-model="productsSelecteds" type="text" class="form-control"></textarea>
-                </div>
                 <div class="row">
                     <div class="col">
                         <label for="">Frete</label>
@@ -45,6 +35,38 @@
                     <textarea required v-model="formOrder.notes" type="email" class="form-control"></textarea>
                 </div>
             </div>
+            <div>
+                <div class="d-flex flex-row-reverse">
+                    <!-- <label for="">Produto:</label> -->
+                    <button class="btn " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                        aria-expanded="false" aria-controls="collapseExample">
+                        Produtos selecionados
+                    </button>
+
+
+                </div>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <div v-if="formOrder.products.length > 0">
+                            <div :key="product" v-for="product of formOrder.products">
+                                <div class="d-flex justify-content-between">
+                                    <div class="pt-2">
+                                        {{ product.name }}
+                                    </div>
+                                    <button type="button" class="btn justify-content-end" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop" @click="loadProduct(product)">
+                                        <i class="fa-regular fa-pen-to-square mx-2"></i>
+                                    </button>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                        <div v-else>
+                            Nenhum produto selecionado
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-6 h-100" style="border-left: 1px solid">
             <div class="row">
@@ -66,7 +88,8 @@
                     </div>
                 </div>
                 <div v-for="item in products" :key="item">
-                    <div class="my-2" style="background-color: beige; cursor: pointer;"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" @click="configProduct(item)">
+                    <div class="my-2" style="background-color: beige; cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" @click="configProduct(item)">
                         <div class="row">
                             <div class="col text-center" :title="item.name"
                                 style=" white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">
@@ -136,37 +159,41 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        {{ product.name }}
+                        {{ modalEditProduct.name }}
                     </div>
                     <hr />
                     <div class="row">
                         <div class="col">
                             <label for="">m²</label>
-                            <input @input="handlePhone" required v-model="product.m2" type="text" class="form-control">
+                            <input @input="handlePhone" required v-model="modalEditProduct.m2" type="text"
+                                class="form-control">
                         </div>
                         <div class="col">
                             <label for="">m</label>
-                            <input required v-model="product.m" type="text" class="form-control">
+                            <input required v-model="modalEditProduct.m" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <label for="">Kg</label>
-                            <input required v-model="product.kg" type="email" class="form-control">
+                            <input required v-model="modalEditProduct.kg" type="email" class="form-control">
                         </div>
                         <div class="col">
                             <label for="">Unidade:</label>
-                            <input v-model="product.unit" type="text" class="form-control">
+                            <input v-model="modalEditProduct.unit" type="text" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="addProduct(product)">Adicionar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        @click="addProduct(product)">Adicionar</button>
                 </div>
             </div>
         </div>
     </div>
+
+
 </template>
 <script>
 import { collection, query, getDocs } from "firebase/firestore";
@@ -177,8 +204,16 @@ export default {
     },
     data() {
         return {
+            modalEditProduct: {
+                productId: null,
+                name: '',
+                kg: 0,
+                m2: 0,
+                m: 0,
+                unit: 0,
+            },
             custommers: [],
-            productsSelecteds: "",
+            productsSelecteds: [],
             product: {
                 name: '',
                 kg: 0,
@@ -188,14 +223,14 @@ export default {
             },
             products: [
                 {
-                    id: '',
+                    id: 12,
                     name: "persiana lisa",
                     kg: 2,
                     m2: 3,
                     m: 2,
                     amount: 2,
                     coust: 3,
-                    description: '',
+                    description: 2,
                 },
                 {
                     id: '',
@@ -236,16 +271,22 @@ export default {
         async load() {
             this.getCustomers()
         },
+        // loadProduct(product) {
+        //     console.log(product)
+        //     this.modalEditProduct = product
+        // },
         addCustommer(custommer) {
             this.formOrder.name = custommer.name
             this.formOrder.custommerId = custommer.id
         },
         configProduct(item) {
-            this.product = item
+            this.modalEditProduct.name = item.name
+            this.modalEditProduct.productId = item.id
         },
         addProduct(product) {
-            this.productsSelecteds += product.name.toString() + '\n'
-            this.formOrder.products.push(product)
+            this.productsSelecteds = product
+            this.formOrder.products.push(this.modalEditProduct)
+            console.log(this.modalEditProduct)
         },
         async getCustomers() {
             let q = await query(collection(this.$firebase, 'Clientes'))
