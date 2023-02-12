@@ -1,6 +1,6 @@
 <template>
-    <div class="row col-12 full-height" style="height:100%">
-        <div class="col-6">
+    <div class="row col-12" style="height: 90%;">
+        <div class="col-6 h-100">
             <div class="form-group">
                 <div>
                     <label for="">Nome do cliente:</label>
@@ -12,30 +12,53 @@
                         <input required v-model="formOrder.freight" type="email" class="form-control">
                     </div>
                     <div class="col">
-                        <label for="">Status</label>
-                        <input required v-model="formOrder.state" type="email" class="form-control">
+                        <label for="">Desconto</label>
+                        <input required v-model="formOrder.descount" type="email" class="form-control">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="">Pagamento</label>
-                        <input required v-model="formOrder.payment" type="email" class="form-control">
+                        <select v-model="formOrder.payment" class="form-select form-select-lg mb-3"
+                            aria-label=".form-select-lg example">
+                            <option value="A vista">A vista</option>
+                            <option value="Parcelado">Parcelado</option>
+                            <option value="Antecipado">Antecipado</option>
+                        </select>
                     </div>
                     <div class="col">
-                        <label for="">Desconto</label>
-                        <input required v-model="formOrder.descount" type="email" class="form-control">
+                        <label for="">Status</label>
+                        <select v-model="formOrder.state" class="form-select form-select-lg mb-3"
+                            aria-label=".form-select-lg example">
+                            <option value="Novo lead">Novo lead</option>
+                            <option value="Em contato">Em contato</option>
+                            <option value="Orçamento enviado">Orçamento enviado</option>
+                            <option value="Aguardando retorno">Aguardando retorno</option>
+                            <option value="Perdido">Perdido</option>
+                            <option value="Fechado">Fechado</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Em produção">Em produção</option>
+                            <option value="Entrega finalizada">Entrega finalizada</option>
+                        </select>
+                        <!-- <input required  type="email" class="form-control"> -->
                     </div>
+
                 </div>
                 <div>
                     <label for="">Tipo</label>
-                    <input required v-model="formOrder.notes" type="email" class="form-control">
+                    <select v-model="formOrder.type" class="form-select form-select-lg mb-3"
+                        aria-label=".form-select-lg example">
+                        <option value="Orçamento">Orçamento</option>
+                        <option value="Ordem de serviço">Ordem de serviço</option>
+                        <option value="Venda">Venda</option>
+                    </select>
                 </div>
                 <div>
                     <label for="">Anotações</label>
                     <textarea required v-model="formOrder.notes" type="email" class="form-control"></textarea>
                 </div>
             </div>
-            <div>
+            <div class="" >
                 <div class="d-flex flex-row-reverse">
                     <!-- <label for="">Produto:</label> -->
                     <button class="btn " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
@@ -45,7 +68,7 @@
 
 
                 </div>
-                <div class="collapse" id="collapseExample">
+                <div class="d-flex collapse" style="max-height: 200px;  overflow:auto;" id="collapseExample">
                     <div class="card card-body">
                         <div v-if="formOrder.products.length > 0">
                             <div :key="product" v-for="product of formOrder.products">
@@ -67,6 +90,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="col-6 h-100" style="border-left: 1px solid">
             <div class="row">
@@ -104,10 +128,13 @@
                                 kg: {{ item.kg }}
                             </div>
                             <div class="col">
-                                m2: {{ item.m2 }}
+                                m²: {{ item.m2 }}
                             </div>
                             <div class="col">
                                 m: {{ item.m }}
+                            </div>
+                            <div class="col-4">
+                                preço: {{ item.price }}R$
                             </div>
                         </div>
                     </div>
@@ -148,6 +175,15 @@
                 </div>
             </div>
         </div>
+    </div>
+    <hr style="margin: 0;" />
+    <div class="d-flex justify-content-end pt-3">
+        <div class="mt-auto p-2">
+            <label class="px-3">Subtotal {{ formOrder.Subtotal }} R$</label>
+            <label for="">Total {{ formOrder.total }} R$</label>
+        </div>
+        <button class="btn btn-outline-primary h-100">cancelar</button>
+        <button class="btn btn-primary mx-2 h-100" @click="submit">Salvar</button>
     </div>
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -196,7 +232,8 @@
 
 </template>
 <script>
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, addDoc } from "firebase/firestore";
+
 export default {
     name: "layoutOrder",
 
@@ -213,7 +250,7 @@ export default {
                 unit: 0,
             },
             custommers: [],
-            productsSelecteds: [],
+            // productsSelecteds: [],
             product: {
                 name: '',
                 kg: 0,
@@ -229,7 +266,7 @@ export default {
                     m2: 3,
                     m: 2,
                     amount: 2,
-                    coust: 3,
+                    price: 3,
                     description: 2,
                 },
                 {
@@ -238,7 +275,7 @@ export default {
                     kg: 2,
                     m2: 3,
                     amount: 2,
-                    coust: 3,
+                    price: 3,
                     description: '',
                 },
             ],
@@ -247,17 +284,14 @@ export default {
             editOrder: false,
             formOrder: {
                 name: "",
-                productName: "",
                 custommerId: "",
                 products: [],
-                kg: 0,
-                m2: 0,
-                m: 0,
-                unit: 0,
+                type: 'Orçamento',
                 total: 0,
                 freight: 0,
                 state: '',
                 payment: '',
+                createdAt: new Date(),
                 discount: 0,
                 Subtotal: 0,
                 notes: ''
@@ -267,6 +301,15 @@ export default {
     mounted() {
         this.load()
     },
+    watch: {
+        // "formOrder.products": {
+        //     handler: function (val) {
+        //         this.formOrder.total += val.map((_) => parseInt(_.price))
+        //         console.log(this.formOrder.total)
+        //     },
+        //     deep: true
+        // }
+    },
     methods: {
         async load() {
             this.getCustomers()
@@ -275,18 +318,29 @@ export default {
         //     console.log(product)
         //     this.modalEditProduct = product
         // },
+        async submit() {
+            try {
+                console.log(`iuiui`)
+                await addDoc(collection(this.$firebase, 'Pedidos'), this.formOrder)
+                console.log(`passoe`)
+            } catch (e) {
+                console.error('Error adding document: ', e)
+            }
+            // this.formOrder = new this.formOrder
+            this.$emit('reload')
+        },
         addCustommer(custommer) {
             this.formOrder.name = custommer.name
             this.formOrder.custommerId = custommer.id
         },
         configProduct(item) {
             this.modalEditProduct.name = item.name
+            this.modalEditProduct.price = item.price
             this.modalEditProduct.productId = item.id
         },
-        addProduct(product) {
-            this.productsSelecteds = product
+        addProduct() {
+            this.formOrder.total += this.modalEditProduct.price
             this.formOrder.products.push(this.modalEditProduct)
-            console.log(this.modalEditProduct)
         },
         async getCustomers() {
             let q = await query(collection(this.$firebase, 'Clientes'))

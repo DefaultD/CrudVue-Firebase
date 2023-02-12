@@ -21,6 +21,8 @@
 </template>
 <script>
 import { EasyDataTable } from "vue3-easy-data-table";
+import { collection, query, getDocs } from "firebase/firestore";
+
 
 export default {
     name: "viewCustomer",
@@ -32,22 +34,35 @@ export default {
         return {
             columns: [
                 { text: "Id", value: "id" },
-                { text: "Cliente", value: "Cliente" },
-                { text: "Status", value: "Status" },
-                { text: "Pagamento", value: "Pagamento" },
-                { text: "Parcelas", value: "Parcelas" },
-                { text: "Desconto", value: "Desconto", sortable: true },
-                { text: "Data", value: "Data", width: 200 },
-                { text: "Total", value: "Total" },
+                { text: "Cliente", value: "name" },
+                { text: "Status", value: "state" },
+                { text: "Tipo", value: "type" },
+                { text: "Endereço", value: "address" },
+                { text: "Frete", value: "freight" },
+                { text: "Desconto", value: "descount"},
+                { text: "Data", value: "createdAt", width: 200 },
+                { text: "Total", value: "total" },
             ],
-            rows: [
-            ]
+            rows: []
         }
+    },
+    mounted() {
+        this.getOrder()
     },
     methods: {
         goToLayoutOrder() {
             this.$router.push('/OrderView')
         },
+        async getOrder() {
+            let q = await query(collection(this.$firebase, 'Pedidos'))
+            let querySnapshot = await getDocs(q)
+            querySnapshot.forEach((doc) => {
+                let data = doc.data()
+                data.id = doc.id
+                this.rows.push(data)
+            });
+            console.log( this.rows)
+        }
     }
 }
 </script>
