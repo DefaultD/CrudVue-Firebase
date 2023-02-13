@@ -10,16 +10,17 @@ export default {
         return {
             loading: true,
             isLogged: false,
-            visible: true,
+            // visible: true,
         }
     },
 
     props: {
-
+        visible: { type: Boolean, default: () => true }
     },
     created() {
-        this.$root.$watch('baseSpinner::show', () => { this.visible = true })
-        this.$root.$watch('baseSpinner::hide', () => { this.visible = false })
+        console.log(this.$root)
+        // this.$root.$on('baseSpinner::show', () => { this.visible = true })
+        // this.$root.$on('baseSpinner::hide', () => { this.visible = false })
     },
 }
 </script>
@@ -37,6 +38,6 @@ export default {
     justify-content: center;
     background-color: var(--dark-medium);
     color: var(--featured);
-    z-index: 10000000;
+    z-index: 999999999999;
 }
 </style>

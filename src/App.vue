@@ -1,37 +1,40 @@
 <template>
-    <!-- <baseSpinner></baseSpinner> -->
-    <div class="container-fluid" v-if="isLogged">
-        <div class="row">
-            <div class="col-2 navigation-sidebar">
-                <h1 class="app-tittle">Dev Tech</h1>
-                <layoutNavigation />
-            </div>
-            <div class="col mt-3">
-                <router-view />
+    <baseSpinner v-if="loading" :visible="loading"></baseSpinner>
+    <div v-else>
+        <div class="container-fluid" v-if="isLogged">
+            <div class="row">
+                <div class="col-2 navigation-sidebar">
+                    <h1 class="app-tittle">Dev Tech</h1>
+                    <layoutNavigation />
+                </div>
+                <div class="col mt-3">
+                    <router-view />
+                </div>
             </div>
         </div>
+        <router-view v-else />
     </div>
-    <router-view v-else />
 </template>
 
 <script>
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import layoutNavigation from '@/components/layoutNavigation.vue'
-// import baseSpinner from '@/components/global/baseSpinner.vue'
+import baseSpinner from '@/components/global/baseSpinner.vue'
 
 export default {
 
-    
+
     data() {
         return {
-            isLogged: false
+            isLogged: false,
+            loading: true,
         }
     },
-    
+
     components: {
         layoutNavigation,
-        // baseSpinner,
+        baseSpinner,
     },
     mounted() {
         console.log(this.$firebase)
@@ -41,8 +44,6 @@ export default {
             this.isLogged = !!user
             this.$router.push({ name: window.uid ? 'customer' : 'login' })
             this.loading = false
-            this.$root.$emit('baseSpinner::hide')
-
         })
     },
 }
@@ -55,7 +56,7 @@ export default {
 #app {
     min-height: 100vh;
     color: var(--featured);
-    background-color: var( --light-medium);
+    background-color: var(--light-medium);
 
     .navigation-sidebar {
         background-color: var(--dark-medium);

@@ -40,9 +40,7 @@
                             <option value="Em produção">Em produção</option>
                             <option value="Entrega finalizada">Entrega finalizada</option>
                         </select>
-                        <!-- <input required  type="email" class="form-control"> -->
                     </div>
-
                 </div>
                 <div>
                     <label for="">Tipo</label>
@@ -223,7 +221,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                        @click="addProduct(product)">Adicionar</button>
+                        @click="addProduct()">Adicionar</button>
                 </div>
             </div>
         </div>
@@ -250,7 +248,6 @@ export default {
                 unit: 0,
             },
             custommers: [],
-            // productsSelecteds: [],
             product: {
                 name: '',
                 kg: 0,
@@ -301,34 +298,20 @@ export default {
     mounted() {
         this.load()
     },
-    watch: {
-        // "formOrder.products": {
-        //     handler: function (val) {
-        //         this.formOrder.total += val.map((_) => parseInt(_.price))
-        //         console.log(this.formOrder.total)
-        //     },
-        //     deep: true
-        // }
-    },
+    watch: {},
     methods: {
         async load() {
             this.getCustomers()
         },
-        // loadProduct(product) {
-        //     console.log(product)
-        //     this.modalEditProduct = product
-        // },
         async submit() {
             try {
-                console.log(`iuiui`)
                 await addDoc(collection(this.$firebase, 'Pedidos'), this.formOrder)
-                console.log(`passoe`)
             } catch (e) {
                 console.error('Error adding document: ', e)
             }
-            // this.formOrder = new this.formOrder
             this.$emit('reload')
         },
+        calcPrice(){},
         addCustommer(custommer) {
             this.formOrder.name = custommer.name
             this.formOrder.custommerId = custommer.id
@@ -339,7 +322,8 @@ export default {
             this.modalEditProduct.productId = item.id
         },
         addProduct() {
-            this.formOrder.total += this.modalEditProduct.price
+            this.formOrder.total += this.modalEditProduct.price 
+            this.formOrder.Subtotal += this.modalEditProduct.price 
             this.formOrder.products.push(this.modalEditProduct)
         },
         async getCustomers() {
