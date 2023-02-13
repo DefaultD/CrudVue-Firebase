@@ -1,18 +1,18 @@
 <template>
-    <div class="row justify-content-between" style="height: 30px">
-        <div class="col">
+    <div class="justify-content-between d-flex" style="height: 30px">
+        <div>
             <h3>Comercial</h3>
         </div>
-        <div class="col-3 h-100">
-            <div class="input-group  flex-nowrap h-100">
+        <div class="row mx-1 h-100">
+            <div class="col h-100 input-group flex-nowrap">
                 <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                 <input type="text" class="form-control" placeholder="Pesquisar" aria-label="Username"
                     aria-describedby="addon-wrapping">
             </div>
+            <button @click="goToLayoutOrder()" class="col h-100 btn btn-outline-primary ">
+                Novo pedido
+            </button>
         </div>
-        <button type="button h-100" @click="goToLayoutOrder()" class="btn btn-outline-primary col-2 h-100 me-3 pb-2">
-            Novo pedido
-        </button>
     </div>
     <hr />
     <div class="mt-2 row">
@@ -39,7 +39,7 @@ export default {
                 { text: "Tipo", value: "type" },
                 { text: "Endereço", value: "address" },
                 { text: "Frete", value: "freight" },
-                { text: "Desconto", value: "descount"},
+                { text: "Desconto", value: "descount" },
                 { text: "Data", value: "createdAt", width: 200 },
                 { text: "Total", value: "total" },
             ],
@@ -61,7 +61,7 @@ export default {
                 data.id = doc.id
                 this.rows.push(data)
             });
-            console.log( this.rows)
+            console.log(this.rows)
         }
     }
 }
