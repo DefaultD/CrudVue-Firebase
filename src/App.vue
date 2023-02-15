@@ -37,7 +37,6 @@ export default {
         baseSpinner,
     },
     mounted() {
-        console.log(this.$firebase)
         const auth = getAuth()
         onAuthStateChanged(auth, (user) => {
             window.uid = user ? user.uid : null

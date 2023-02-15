@@ -22,53 +22,33 @@
                                     <label for="">Material:</label>
                                     <input required v-model="formProduct.material" type="" class="form-control">
                                 </div>
-                                <div class="my-3 row">
-                                    <div class="col-8 d-flex">
-                                        <label for="">R$ Preço</label>
-                                        <input required type="" class="form-control">
+                                <div class="my-3">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <label class="align-self-center pe-2">Preço</label>
+                                            <input type="text" v-model="formProduct.price" class="form-control">
+                                        </div>
+                                        <div class="col-2">
+                                            <label class="align-self-center pe-2">Tipo</label>
+                                            <select v-model="formProduct.type" class="form-select form-select-md"
+                                                aria-label=".form-select-lg example">
+                                                <option value="A vista" selected>Qtd</option>
+                                                <option value="Parcelado">Kg</option>
+                                                <option value="Parcelado">ML(Metro linear)</option>
+                                                <option value="Parcelado">M²</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <select  class="form-select form-select-lg mb-3"
-                                        aria-label=".form-select-lg example">
-                                        <option value="A vista">Qtd</option>
-                                        <option value="Parcelado">Kg</option>
-                                        <option value="Parcelado">ML(Metro linear)</option>
-                                        <option value="Parcelado">M²</option>
-                                        <!-- <option value="Antecipado">Antecipado</option> -->
-                                    </select>
                                 </div>
-                                <div class=" d-flex">
-                                    <label for="">R$ Custo</label>
-                                    <input required type="" class="form-control">
+                                <div class="my-3">
+                                    <label class="align-self-center pe-2">Custo</label>
+                                    <input required v-model="formProduct.cost" class="form-control">
                                 </div>
-                            </div>
                                 <div class="my-3">
                                     <label for="">Descrição:</label>
-                                    <textarea type="text" class="form-control" />
+                                    <textarea v-model="formProduct.description" type="text" class="form-control" />
                                 </div>
-                                <!-- <div class="my-3">
-                                    <label for="">M²</label>
-                                    <input required v-model="formProduct.priceQtd" type="" class="form-control">
-                                </div>
-                                <div class="my-3">
-                                    <label for="">ML(Metro linear)</label>
-                                    <input required v-model="formProduct.priceQtd" type="" class="form-control">
-                                </div> -->
-
                             </div>
-                            <!-- <div class="col-6">
-                                <label class="my-2"><b>Precificação</b></label><br>
-                                <div>
-                                    <label for="">R$(KG)</label>
-                                    <input required v-model="formProduct.priceKg" type="" class="form-control">
-                                </div> -->
-                        
-                                <!-- <div class="my-3">
-                                    <label for="">Preço: R$</label>
-                                    <input required v-model="formProduct.cost" type="" class="form-control">
-                                </div> -->
-                       
-                            <!-- </div> -->
                         </div>
                     </div>
                     <div class="modal-footer justify-content-end">
@@ -93,9 +73,9 @@ export default {
             formProduct: {
                 service: '',
                 material: '',
-                priceKg: '',
-                priceQtd: '',
+                price: 0,
                 cost: '',
+                type: 'Qtd',
                 description: ''
             }
         }
@@ -143,7 +123,7 @@ export default {
         },
         async deleteCustomer() {
             try {
-                await deleteDoc(doc(this.$firebase, "Clientes", this.editCustomer.id))
+                await deleteDoc(doc(this.$firebase, "Produtos", this.editCustomer.id))
             } catch (error) {
                 console.log(error)
             }
@@ -152,8 +132,7 @@ export default {
         },
         async submit() {
             if (this.editCustomer) {
-                const docRef = doc(this.$firebase, "Clientes", this.editCustomer.id)
-                console.log(`iuiui`)
+                const docRef = doc(this.$firebase, "Produtos", this.editCustomer.id)
                 try {
                     this.validate()
                     await setDoc(docRef, this.editCustomer)
@@ -162,9 +141,8 @@ export default {
                 }
             } else {
                 try {
-                    console.log(`iuiui`)
                     this.validate()
-                    await addDoc(collection(this.$firebase, 'Clientes'), this.formCustomer)
+                    await addDoc(collection(this.$firebase, 'Produtos'), this.formCustomer)
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }
