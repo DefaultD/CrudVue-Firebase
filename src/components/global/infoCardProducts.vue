@@ -45,7 +45,7 @@
 </div>
 </template>
 <script>
-import layoutCreateNewProduct from '@/components/layout/layoutCreateNewProduct.vue'
+import layoutCreateNewProduct from '@/components/layout/layoutProduct.vue'
 export default {
 data() {
     return {
@@ -57,10 +57,6 @@ methods: {
     recarregar(){
         this.$emit('reload')
     },
-    // convertTimestampForDate(timestamp) {
-        //     let date = new Date(timestamp)
-        //     return date
-        // },
     formatDate(time) {
         // let date = new Date(time)
         console.log(time)
