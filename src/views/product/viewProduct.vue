@@ -19,8 +19,7 @@
     </div>
     <div class="mt-2 row">
         <div :key="product" v-for="product of productsData" class="my-3 col-lg-4 rounded">
-            {{ product }}
-            <!-- <infoCard :data="product" @reload="load()" /> -->
+            <infoCardProducts :data="product" @reload="load()" />
         </div>
     </div>
 
@@ -30,7 +29,7 @@
 <script>
 import { collection, query, getDocs } from "firebase/firestore";
 import layoutCreateNewProduct from '@/components/layout/layoutProduct.vue'
-// import infoCard from '@/components/global/infoCardProducts.vue'
+import infoCardProducts from '@/components/global/infoCardProducts.vue'
 
 export default {
     name: "viewProducts",
@@ -42,7 +41,32 @@ export default {
         return {
             openModal: false,
             openModalCliente: false,
-            productsData: []
+            productsData: [
+                {
+                    service: 'Persiana lisa',
+                    material: 'pano',
+                    price: 13.99,
+                    cost: 8.99,
+                    type: 'Qtd',
+                    description: 'Persiana do rocha'
+                },
+                {
+                    service: 'Persiana de vidro',
+                    material: 'vidro',
+                    price: 11.29,
+                    cost: 10,
+                    type: 'Qtd',
+                    description: 'Persiana do rocha'
+                },
+                {
+                    service: 'limpesa de persiana',
+                    material: 'N/T',
+                    price: 45,
+                    cost: 21,
+                    type: 'Qtd',
+                    description: 'Persiana do rocha'
+                },
+            ]
         }
     },
 
@@ -65,7 +89,7 @@ export default {
 
     components: {
         layoutCreateNewProduct,
-        // infoCard
+        infoCardProducts
     },
 
 }

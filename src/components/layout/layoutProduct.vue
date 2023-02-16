@@ -91,13 +91,10 @@ export default {
             if (!this.formProduct.material) {
                 throw Error('Por favor preencha o tipo do material')
             }
-            if (!this.formProduct.priceQtd) {
-                throw Error('Por favor preencha o campo "preço"')
+            if (!this.formProduct.priceQtd && !this.formProduct.type) {
+                throw Error('Por favor preencha o campo "preço" e "tipo"')
             }
 
-            if (!this.formProduct.priceKg) {
-                throw Error('Por favor preencha o campo "preço"')
-            }
             if (!this.formProduct.cost) {
                 throw Error('Por favor preencha o campo "custo"')
             }
@@ -109,9 +106,9 @@ export default {
             this.formProduct = {
                 service: '',
                 material: '',
-                priceKg: '',
-                priceQtd: '',
+                price: 0,
                 cost: '',
+                type: 'Qtd',
                 description: ''
             }
         },
@@ -142,25 +139,13 @@ export default {
             } else {
                 try {
                     this.validate()
-                    await addDoc(collection(this.$firebase, 'Produtos'), this.formCustomer)
+                    await addDoc(collection(this.$firebase, 'Produtos'), this.formProduct)
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }
             }
-            this.formCustomer = {
-                name: '',
-                type: '',
-                id: '',
-                createdAt: '',
-                email: '',
-                lead: '',
-                phone: '',
-                address: '',
-                complement: '',
-                description: ''
-            }
             this.$emit('reload')
-            this.modal = false
+            this.closeModal()
         },
         handlePhone(event) {
             let input = event.target

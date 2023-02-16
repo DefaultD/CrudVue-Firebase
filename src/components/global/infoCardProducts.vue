@@ -1,83 +1,68 @@
 <template>
     <div class="card h-100 border-0 w-100" style="width: 18rem; color: var(--darker);">
         <div class="card-header">
-            <h5 class="card-title">{{ `${data.name}` }}</h5>
+            <h5 class="card-title">{{ `${data.service}` }}</h5>
         </div>
-        <div class="card-body w-100">
-            
+        <div class="card-body w-100" style="max-width: 335px; max-height: 230px; overflow: hidden;">
             <div class="row">
-                
-                <div class="col-6">
-                    <h6 class="card-subtitle text-muted">{{ data.lead }}</h6>
+                <div class="col-6 d-flex">
+                    <h6 class="card-subtitle text-muted">Preço - {{ data.price }}R$</h6>
+                    
                 </div>
-            <div class="col-6 text-end">
-                <h6 class="card-subtitle  text-muted">{{ data.type }}</h6>
+                <div class="col text-end">
+                    <h6 class="card-subtitle  text-muted">Custo - {{ data.cost }}R$</h6>
+                </div>
             </div>
+            <hr />
+            <div class="col">
+                <h6 class="card-subtitle text-muted mb-2">Tipo - {{ data.type }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">{{ `Descrição - ${data.description}` }}</h6>
+            </div>
+
         </div>
-        <hr />
-        <div class="col">
-            <h6 class="card-subtitle mb-2 text-muted">{{ `Telefone - ${data.phone}` }}</h6>
+        <div class="card-footer d-flex justify-content-end">
+                <button class="btn pe-0" @click="openModalCliente = !openModalCliente"><i
+                        class="fa-regular fa-sun"></i>
+                </button>
         </div>
-        <div class="col">
-            <h6 class="card-subtitle mb-2 text-muted">{{ `Email - ${data.email}` }}</h6>
-        </div>
-        <div class="col">
-            <h6 class="card-subtitle mb-2 text-muted">{{
-                data.complement ? `Endereço - ${data.address} • ${data.complement}` :
-                `Endereço - ${data.address}`
-            }}</h6>
-        </div>
-        <div class="col">
-            <h6 class="card-subtitle mb-2 text-muted">{{ `Descrição - ${data.description}` }}</h6>
-        </div>
-        
+        <layoutCreateNewProduct :showModal="openModalCliente" @reload="recarregar()" :editCustomer="data" />
     </div>
-    <div class="card-footer row justify-content-between">
-        <div class="col pt-2" style="color: var(--darker);">
-            Criado • {{ formatDate(data.createdAt.seconds) }}
-        </div>
-        <div class="col-2 text-end">
-            <button class="btn" @click="openModalCliente = !openModalCliente"><i class="fa-regular fa-sun"></i></button>
-            
-        </div>
-    </div>
-    <layoutCreateNewProduct :showModal="openModalCliente" @reload="recarregar()" :editCustomer="data"/>
-</div>
 </template>
 <script>
 import layoutCreateNewProduct from '@/components/layout/layoutProduct.vue'
 export default {
-data() {
-    return {
-        openModalCliente: false,
-        modal: false,
-    }
-},
-methods: {
-    recarregar(){
-        this.$emit('reload')
+    name: "infoCardProducts",
+    data() {
+        return {
+            openModalCliente: false,
+            modal: false,
+        }
     },
-    formatDate(time) {
-        // let date = new Date(time)
-        console.log(time)
-        // let d = date.getDay()
-        // let m = date.getMonth()
-        // let y = date.getFullYear()
+    methods: {
+        recarregar() {
+            this.$emit('reload')
+        },
+        formatDate(time) {
+            // let date = new Date(time)
+            console.log(time)
+            // let d = date.getDay()
+            // let m = date.getMonth()
+            // let y = date.getFullYear()
 
-        // return `${d}/${m}/${y}`
+            // return `${d}/${m}/${y}`
+        }
+    },
+    components: {
+        layoutCreateNewProduct
+    },
+    props: {
+        data: Object
     }
-},
-components: {
-    layoutCreateNewProduct
-},
-props: {
-    data: Object
-}
 }
 </script>
 
 <style scoped lang="scss">
 .card-body {
-color: var(--darker)
+    color: var(--darker)
 }
 </style>
