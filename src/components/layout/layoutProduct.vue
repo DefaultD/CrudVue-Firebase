@@ -114,8 +114,9 @@ export default {
         },
 
         load() {
-            if (this.editCustomer) {
-                this.formCustomer = this.editCustomer
+            console.log(this.editProduct);
+            if (this.editProduct) {
+                this.formProduct = this.editProduct
             }
         },
         async deleteCustomer() {
@@ -128,11 +129,12 @@ export default {
             this.modal = false
         },
         async submit() {
-            if (this.editCustomer) {
-                const docRef = doc(this.$firebase, "Produtos", this.editCustomer.id)
+            if (this.editProduct) {
+                const docRef = doc(this.$firebase, "Produtos", this.formProduct.id)
                 try {
                     this.validate()
-                    await setDoc(docRef, this.editCustomer)
+                    await setDoc(docRef, this.formProduct)
+                    this.$emit('reload')
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }
@@ -140,6 +142,7 @@ export default {
                 try {
                     this.validate()
                     await addDoc(collection(this.$firebase, 'Produtos'), this.formProduct)
+                    this.$emit('reload')
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }
@@ -170,7 +173,7 @@ export default {
 
     props: {
         showModal: Boolean,
-        editCustomer: Object
+        editProduct: Object
     }
 
 }
