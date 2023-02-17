@@ -19,7 +19,7 @@
     </div>
     <div class="mt-2 row">
         <div :key="product" v-for="product of productsData" class="my-3 col-lg-4 rounded">
-            <infoCardProducts :data="product" @reload="load()" />
+            <infoCardProducts :data="product"  />
         </div>
     </div>
 
@@ -41,44 +41,20 @@ export default {
         return {
             openModal: false,
             openModalCliente: false,
-            productsData: [
-                {
-                    service: 'Persiana lisa',
-                    material: 'pano',
-                    price: 13.99,
-                    cost: 8.99,
-                    type: 'Qtd',
-                    description: 'Persiana do rocha'
-                },
-                {
-                    service: 'Persiana de vidro',
-                    material: 'vidro',
-                    price: 11.29,
-                    cost: 10,
-                    type: 'Qtd',
-                    description: 'Persiana do rocha'
-                },
-                {
-                    service: 'limpesa de persiana',
-                    material: 'N/T',
-                    price: 45,
-                    cost: 21,
-                    type: 'Qtd',
-                    description: 'Persiana do rocha'
-                },
-            ]
+            productsData: []
         }
     },
 
     methods: {
         async load() {
-            this.ProductsData = []
+            this.productsData = []
             await this.getProducts()
-            console.log(this.ProductsData)
         },
         async getProducts() {
+            console.log(this.productsData)
             let q = await query(collection(this.$firebase, 'Produtos'))
             let querySnapshot = await getDocs(q)
+            this.productsData = []
             querySnapshot.forEach((doc) => {
                 let data = doc.data()
                 data.id = doc.id

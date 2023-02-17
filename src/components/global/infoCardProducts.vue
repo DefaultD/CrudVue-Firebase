@@ -25,7 +25,7 @@
                         class="fa-regular fa-sun"></i>
                 </button>
         </div>
-        <layoutCreateNewProduct :showModal="openModalCliente" @reload="recarregar()" :editCustomer="data" />
+        <layoutCreateNewProduct :showModal="openModalCliente" @reload="recarregar()" :editProduct="data" />
     </div>
 </template>
 <script>
