@@ -1,5 +1,5 @@
 <template>
-    <div class="row col-12" style="height: 90%;">
+    <div class="row container h-100">
         <div class="col-6 h-100">
             <div class="form-group">
                 <div>
@@ -63,14 +63,16 @@
                         aria-expanded="false" aria-controls="collapseExample">
                         Produtos selecionados
                     </button>
+
+
                 </div>
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body" style="max-height: 200px;">
-                        <div v-if="formOrder.products.length > 0" class="overflow-auto" style="height: 100%;">
+                <div class="d-flex collapse" style="max-height: 200px;  overflow:auto;" id="collapseExample">
+                    <div class="card card-body">
+                        <div v-if="formOrder.products.length > 0">
                             <div :key="product" v-for="product of formOrder.products">
                                 <div class="d-flex justify-content-between">
                                     <div class="pt-2">
-                                        {{ product.service }}
+                                        {{ product.name }}
                                     </div>
                                     <button type="button" class="btn justify-content-end" data-bs-toggle="modal"
                                         data-bs-target="#staticBackdrop" @click="loadProduct(product)">
@@ -98,6 +100,7 @@
                 </div>
             </div>
             <hr class="margin-0" />
+
             <div v-if="!viewCustommer">
                 <div class="row">
                     <div class="input-group mb-3">
@@ -106,20 +109,31 @@
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
-                <div style="height: 90%;">
-                    <div v-for="item in products" :key="item">
-                        <div class="my-2 h-100" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                            @click="configProduct(item)">
-                            <div class="row">
-                                <div class="col" :title="item.service"
-                                    style=" white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">
-                                    {{ item.service }}
-                                </div>
-                                <div>
-                                    preço: {{ item.price }}R$
-                                </div>
+                <div v-for="item in products" :key="item">
+                    <div class="my-2" style="background-color: beige; cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" @click="configProduct(item)">
+                        <div class="row">
+                            <div class="col text-center" :title="item.name"
+                                style=" white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">
+                                {{ item.name }}
                             </div>
-                            <hr />
+                        </div>
+                        <div class="row mx-2">
+                            <div class="col">
+                                qtd: {{ item.amount }}
+                            </div>
+                            <div class="col">
+                                kg: {{ item.kg }}
+                            </div>
+                            <div class="col">
+                                m²: {{ item.m2 }}
+                            </div>
+                            <div class="col">
+                                m: {{ item.m }}
+                            </div>
+                            <div class="col-4">
+                                preço: {{ item.price }}R$
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,17 +170,19 @@
                     </div>
                 </div>
             </div>
+            <hr style="margin: 0;" />
+            <div class="d-flex justify-content-end pt-3">
+                <div class="mt-auto p-2">
+                    <label class="px-3">Subtotal {{ formOrder.Subtotal }} R$</label>
+                    <label for="">Total {{ formOrder.total }} R$</label>
+                </div>
+                <button class="btn btn-outline-primary h-100">cancelar</button>
+                <button class="btn btn-primary mx-2 h-100" @click="submit">Salvar</button>
+            </div>
         </div>
+
     </div>
-    <hr style="margin: 0;" />
-    <div class="d-flex justify-content-end pt-3">
-        <div class="mt-auto p-2">
-            <label class="px-3">Subtotal {{ formOrder.Subtotal }} R$</label>
-            <label for="">Total {{ formOrder.total }} R$</label>
-        </div>
-        <button class="btn btn-outline-primary h-100">cancelar</button>
-        <button class="btn btn-primary mx-2 h-100" @click="submit">Salvar</button>
-    </div>
+
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -177,7 +193,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        {{ modalEditProduct.service }}
+                        {{ modalEditProduct.name }}
                     </div>
                     <hr />
                     <div class="row">
@@ -237,7 +253,27 @@ export default {
                 m: 0,
                 unit: 0,
             },
-            products: [],
+            products: [
+                {
+                    id: 12,
+                    name: "persiana lisa",
+                    kg: 2,
+                    m2: 3,
+                    m: 2,
+                    amount: 2,
+                    price: 3,
+                    description: 2,
+                },
+                {
+                    id: '',
+                    name: "limpeza",
+                    kg: 2,
+                    m2: 3,
+                    amount: 2,
+                    price: 3,
+                    description: '',
+                },
+            ],
             viewCustommer: false,
             modal: false,
             editOrder: false,
@@ -264,7 +300,6 @@ export default {
     methods: {
         async load() {
             this.getCustomers()
-            this.getProducts()
         },
         async submit() {
             try {
@@ -274,22 +309,13 @@ export default {
             }
             this.$emit('reload')
         },
-        async getProducts() {
-            let q = await query(collection(this.$firebase, 'Produtos'))
-            let querySnapshot = await getDocs(q)
-            this.products = []
-            querySnapshot.forEach((doc) => {
-                let data = doc.data()
-                data.id = doc.id
-                this.products.push(data)
-            });
-        },
+        calcPrice() { },
         addCustommer(custommer) {
             this.formOrder.name = custommer.name
             this.formOrder.custommerId = custommer.id
         },
         configProduct(item) {
-            this.modalEditProduct.service = item.service
+            this.modalEditProduct.name = item.name
             this.modalEditProduct.price = item.price
             this.modalEditProduct.productId = item.id
         },

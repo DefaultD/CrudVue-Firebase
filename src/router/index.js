@@ -18,7 +18,7 @@ const routes = [
             title: 'Produtos',
             icon: "cart-shopping",
         },
-        component: () => import('../views/product/viewProduct')
+        component: () => import('../views/product/ProductView')
     },
     {
         path: '/commercial',
