@@ -11,6 +11,10 @@
                         <label for="">Nome do cliente:</label>
                         <input disabled required v-model="formOrder.name" type="text" class="form-control">
                     </div>
+                    <div>
+                        <label for="">Endereço:</label>
+                        <input required v-model="formOrder.address" type="text" class="form-control">
+                    </div>
                     <div class="row">
                         <div class="col">
                             <label for="">Frete</label>
@@ -18,7 +22,7 @@
                         </div>
                         <div class="col">
                             <label for="">Desconto</label>
-                            <input required v-model="formOrder.descount" type="email" class="form-control">
+                            <input required v-model="formOrder.discount" type="email" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -69,13 +73,13 @@
                     <div class="collapse" id="collapseExample">
                         <div class="card card-body" style="max-height: 200px;">
                             <div v-if="formOrder.products.length > 0" class="overflow-auto" style="height: 100%;">
-                                <div :key="product" v-for="product of formOrder.products">
+                                <div :key="item" v-for="item of formOrder.products">
                                     <div class="d-flex justify-content-between">
                                         <div class="pt-2">
-                                            {{ product.service }}
+                                            {{ item.service }}
                                         </div>
                                         <button type="button" class="btn justify-content-end" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop" @click="loadProduct(product)">
+                                            data-bs-target="#staticBackdrop" @click="editProduct(item)">
                                             <i class="fa-regular fa-pen-to-square mx-2"></i>
                                         </button>
                                     </div>
@@ -186,36 +190,50 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel"> {{ modalEditProduct.service }}</h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel"> {{ product.service }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col">
-                                <label for="">m²</label>
-                                <input @input="handlePhone" required v-model="modalEditProduct.m2" type="text"
-                                    class="form-control">
+                        <div v-if="this.product.type == 'Kg'">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="Altura">Altura</label>
+                                    <input @input="calcKg()" required v-model="product.height" type="text"
+                                        class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label for="Largura">Largura</label>
+                                    <input @input="calcKg()" required v-model="product.width" type="text"
+                                        class="form-control">
+                                </div>
                             </div>
-                            <div class="col">
-                                <label for="">m</label>
-                                <input required v-model="modalEditProduct.m" type="text" class="form-control">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="Quantidade">Quantidade</label>
+                                    <input @input="calcKg()" required v-model="product.quantity" type="email"
+                                        class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label for="Total">Total:</label>
+                                    <input v-model="product.total" disabled type="text" class="form-control">
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="">Kg</label>
-                                <input required v-model="modalEditProduct.kg" type="email" class="form-control">
+                        <div v-else>
+                            <div>
+                                <label for="Total">{{ product.type }}</label>
+                                <input @input="calcValue()" v-model="product.value" type="text" class="form-control">
                             </div>
                             <div class="col">
-                                <label for="">Unidade:</label>
-                                <input v-model="modalEditProduct.unit" type="text" class="form-control">
+                                <label for="Total">Total:</label>
+                                <input v-model="product.total" disabled type="text" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                            @click="addProduct()">Adicionar</button>
+                            @click="saveProduct()">Adicionar</button>
                     </div>
                 </div>
             </div>
@@ -224,7 +242,6 @@
 </template>
 <script>
 import { collection, query, getDocs, addDoc } from "firebase/firestore";
-
 export default {
     name: "layoutOrder",
 
@@ -243,10 +260,12 @@ export default {
             custommers: [],
             product: {
                 name: '',
-                kg: 0,
-                m2: 0,
-                m: 0,
-                unit: 0,
+                type: '',
+                quantity: 0,
+                value: 0,
+                width: 0,
+                height: 0,
+                total: 0,
             },
             products: [],
             viewCustommer: false,
@@ -261,6 +280,7 @@ export default {
                 freight: 0,
                 state: '',
                 payment: '',
+                address: '',
                 createdAt: new Date(),
                 discount: 0,
                 Subtotal: 0,
@@ -274,8 +294,21 @@ export default {
     watch: {},
     methods: {
         async load() {
+            this.$notify.notify('Olá, mundo!');
             this.getCustomers()
             this.getProducts()
+        },
+        calcKg() {
+            this.product.total = ((this.product.width * this.product.height) * this.product.quantity) * this.product.price
+        },
+        calcValue() {
+            this.product.total = this.product.value * this.product.price
+            //     ((Largura * altura) * quantidade) * preco 
+            // ((1 * 2) * 3) * 30
+
+        },
+        validate() {
+            if (this.formOrder.custommerId) throw `Por favor escolha um cliente`
         },
         async submit() {
             try {
@@ -299,13 +332,25 @@ export default {
             this.formOrder.name = custommer.name
             this.formOrder.custommerId = custommer.id
         },
-        configProduct(item) {
-            this.modalEditProduct = item
+        editProduct(item) {
+            this.product = item
+            if (this.product.type == 'Kg') this.calcKg()
+            else this.calcValue()
         },
-        addProduct() {
-            this.formOrder.total += this.modalEditProduct.price
-            this.formOrder.Subtotal += this.modalEditProduct.price
-            this.formOrder.products.push(this.modalEditProduct)
+        configProduct(item) {
+            if (item.editProduct) {
+                item.editProduct = false
+            }
+            this.product = JSON.parse(JSON.stringify(item))
+            if (this.product.type == 'Kg') this.calcKg()
+            else this.calcValue()
+        },
+        saveProduct() {
+            if (!this.product.editProduct) {
+                this.product.total = this.product.value * this.product.price
+                this.product.editProduct = true
+                this.formOrder.products.push(JSON.parse(JSON.stringify(this.product)))
+            }
         },
         async getCustomers() {
             let q = await query(collection(this.$firebase, 'Clientes'))

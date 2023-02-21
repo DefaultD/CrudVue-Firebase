@@ -24,7 +24,7 @@ const routes = [
         path: '/commercial',
         name: 'commercial',
         meta: {
-            title: 'Comercial',
+            title: 'Comercial/Expedição',
             icon: "cart-shopping",
         },
         component: () => import('../views/commercial/CommercialView')
