@@ -5,7 +5,7 @@
         </div>
         <hr class="m-0 p-0" />
         <div class="row flex-grow-1 my-md-2">
-            <div class="col-12 col-sm-6">
+            <div class="col-6">
                 <div class="form-group">
                     <div>
                         <label for="">Nome do cliente:</label>
@@ -89,14 +89,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6" style=" border-left: 1px solid; ">
+            <div class="col-6" style=" border-left: 1px solid; ">
                 <div class="row">
-                    <div class="col-6 my-sm-2"
+                    <div class="col my-sm-2"
                         :class="!viewCustommer ? 'border border-bottom-0 rounded-top color border-primary' : 'border-bottom'">
                         <button class="btn bg-transparent btn-light w-100" :class="!viewCustommer ? 'text-primary' : ''"
                             @click="viewCustommer = false">Produtos</button>
                     </div>
-                    <div class="col-6 border-bottom my-sm-2"
+                    <div class="col border-bottom my-sm-2"
                         :class="viewCustommer ? 'border border-bottom-0 rounded-top color border-primary' : 'border-bottom'">
                         <button class="btn bg-transparent btn-light w-100" :class="viewCustommer ? 'text-primary' : ''"
                             @click="viewCustommer = true">Clientes</button>
@@ -142,18 +142,18 @@
                                 </div>
                             </div>
                             <div v-for="custommer in custommers" :key="custommer">
-                                <div class="my-md-2" style="cursor: pointer;" @click="addCustommer(custommer)">
+                                <div class="my-2" style="cursor: pointer;" @click="addCustommer(custommer)">
                                     <div class="row">
-                                        <div class="col-sm-12" :title="custommer.name"
+                                        <div class="col" :title="custommer.name"
                                             style=" white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">
-                                            {{ custommer.name }}
+                                            Nome: {{ custommer.name }}
                                         </div>
-                                        <div class="col-sm-12" :title="custommer.email"
+                                        <div class="col" :title="custommer.email"
                                             style=" white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">
-                                            {{ custommer.email }}
+                                            Email: {{ custommer.email }}
                                         </div>
                                     </div>
-                                    <div class="row d-none d-sm-block">
+                                    <div class="row">
                                         <div :title="custommer.address" class="col"
                                             style=" white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">
                                             Endereço: {{ custommer.address }}
@@ -170,16 +170,8 @@
                 </div>
             </div>
         </div>
-        <hr class="p-0 m-0" />
-        <div class="row" style="border-left: 1px solid">
-            <div class="d-flex justify-content-end my-sm-2">
-                <div class="mt-auto p-2">
-                    <label class="px-3">Subtotal {{ formOrder.Subtotal }} R$</label>
-                    <label for="">Total {{ formOrder.total }} R$</label>
-                </div>
-                <button class="btn btn-outline-primary h-100">cancelar</button>
-                <button class="btn btn-primary mx-2 h-100" @click="submit">Salvar</button>
-            </div>
+        <div class="row footer" style="background-color: blue; border-left: 1px solid">
+            teste
         </div>
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -320,6 +312,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 .nav-link {
     border: none;
 
