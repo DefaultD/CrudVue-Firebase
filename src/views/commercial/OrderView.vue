@@ -11,16 +11,23 @@
                         <label for="">Nome do cliente:</label>
                         <input disabled required v-model="formOrder.name" type="text" class="form-control">
                     </div>
-                    <div>
-                        <label for="">Endereço:</label>
-                        <input required v-model="formOrder.address" type="text" class="form-control">
-                    </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-6 col-12">
+                            <label for="">Endereço:</label>
+                            <input required v-model="formOrder.address" type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <label for="">Complemento:</label>
+                            <input required v-model="formOrder.complement" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-12">
                             <label for="">Frete</label>
                             <input required v-model="formOrder.freight" type="email" class="form-control">
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6 col-12">
                             <label for="">Desconto</label>
                             <input required v-model="formOrder.discount" type="email" class="form-control">
                         </div>
@@ -128,7 +135,7 @@
                                                 {{ item.service }}
                                             </div>
                                             <div>
-                                                preço: {{ item.price }}R$
+                                                {{ `preço ${item.type} ${item.price}R$ ` }}
                                             </div>
                                         </div>
                                         <hr class="p-0 m-0" />
@@ -177,8 +184,8 @@
         <hr class="p-0 m-0" />
         <div class="row" style="border-left: 1px solid">
             <div class="d-flex justify-content-end my-sm-2">
-                <div class="mt-auto p-2">
-                    <label class="px-3">Subtotal {{ formOrder.Subtotal }} R$</label>
+                <div class="mt-auto p-2 d-flex">
+                    <!-- <label class="px-3 d-none d-sm-block">Lucro liquido {{ formOrder.profit }} R$</label> -->
                     <label for="">Total {{ formOrder.total }} R$</label>
                 </div>
                 <button class="btn btn-outline-primary h-100">cancelar</button>
@@ -281,9 +288,10 @@ export default {
                 state: '',
                 payment: '',
                 address: '',
+                complement: '',
                 createdAt: new Date(),
                 discount: 0,
-                Subtotal: 0,
+                // profit: 0,
                 notes: ''
             }
         }
@@ -294,7 +302,7 @@ export default {
     watch: {},
     methods: {
         async load() {
-            this.$notify.notify('Olá, mundo!');
+
             this.getCustomers()
             this.getProducts()
         },
@@ -303,15 +311,30 @@ export default {
         },
         calcValue() {
             this.product.total = this.product.value * this.product.price
-            //     ((Largura * altura) * quantidade) * preco 
-            // ((1 * 2) * 3) * 30
 
         },
         validate() {
-            if (this.formOrder.custommerId) throw `Por favor escolha um cliente`
+            if (!this.formOrder.custommerId) {
+                this.$notify({ text: "Por favor adicione um cliente!", type: 'error' });
+                throw Error('Por favor adicione um cliente!')
+            }
+            if (!this.formOrder.address) {
+                this.$notify({ text: "Por favor adicione um endereço!", type: 'error' });
+                throw Error('Por favor adicione um endereço!')
+            }
+            if (!this.formOrder.state) {
+                this.$notify({ text: "Por favor adicione um status!", type: 'error' });
+                throw Error('Por favor adicione um status!')
+            }
+            if (!this.formOrder.type) {
+                this.$notify({ text: "Por favor adicione um tipo!", type: 'error' });
+                throw Error('Por favor adicione um tipo!')
+            }
         },
         async submit() {
+
             try {
+                this.validate()
                 await addDoc(collection(this.$firebase, 'Pedidos'), this.formOrder)
             } catch (e) {
                 console.error('Error adding document: ', e)
@@ -351,6 +374,10 @@ export default {
                 this.product.editProduct = true
                 this.formOrder.products.push(JSON.parse(JSON.stringify(this.product)))
             }
+            this.calcTotalPrice(this.product.total)
+        },
+        calcTotalPrice(value) {
+            this.formOrder.total += value
         },
         async getCustomers() {
             let q = await query(collection(this.$firebase, 'Clientes'))

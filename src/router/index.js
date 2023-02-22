@@ -30,7 +30,7 @@ const routes = [
         component: () => import('../views/commercial/CommercialView')
     },
     {
-        path: '/OrderView',
+        path: '/OrderView/:id?',
         name: 'order',
         component: () => import('../views/commercial/OrderView')
     },
