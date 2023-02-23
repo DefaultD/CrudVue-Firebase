@@ -3,11 +3,11 @@
         <div class="card-header">
             <h5 class="card-title">{{ `${data.service}` }}</h5>
         </div>
-        <div class="card-body w-100" style="max-width: 335px; max-height: 230px; overflow: hidden;">
+        <div class="card-body w-100" style=" max-height: 230px; overflow: hidden;">
             <div class="row">
                 <div class="col-6 d-flex">
                     <h6 class="card-subtitle text-muted">Preço - {{ data.price }}R$</h6>
-                    
+
                 </div>
                 <div class="col text-end">
                     <h6 class="card-subtitle  text-muted">Custo - {{ data.cost }}R$</h6>
@@ -21,9 +21,8 @@
 
         </div>
         <div class="card-footer d-flex justify-content-end">
-                <button class="btn pe-0" @click="openModalCliente = !openModalCliente"><i
-                        class="fa-regular fa-sun"></i>
-                </button>
+            <button class="btn pe-0" @click="openModalCliente = !openModalCliente"><i class="fa-regular fa-sun"></i>
+            </button>
         </div>
         <layoutCreateNewProduct :showModal="openModalCliente" @reload="recarregar()" :editProduct="data" />
     </div>

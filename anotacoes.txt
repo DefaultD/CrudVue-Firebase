@@ -1,5 +1,23 @@
-OS (Garantia/ Venda/ Visita)
+colocar Filtros na tela de pedidos e colocar search nas telas
+Calculo Produtos(alta prioridade)
+-m²: ((Largura * altura) * quantidade) * preco 
+        ((1 * 2) * 3) * 30
 
+-kg: kg * preço 
+
+-ml: ml * preco
+
+-qtd: qtd * preco
+
+Lucro liquido(alta prioridade)
+(preco de cada produto - custo) - Desconto%
+
+investigar outra solucao(alta prioridade)
+2 campos de telefone?
+2 campos de Endereço?
+
+historico de data de alteracao nos Pedidos(Estudar possibilidade)
 
 Novo modulo - 
-associar o agendamento a um cliente ou associar a um pedido fechado 
+historico do cliente(tela)
+associar o agendamento a um cliente ou associar a um pedido fechado (valor calcular e baixa prioridade)

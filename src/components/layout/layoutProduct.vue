@@ -6,14 +6,13 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLiveLabel">Adicionar cliente</h5>
+                        <h5 class="modal-title" id="exampleModalLiveLabel"><b>Produto</b></h5>
                         <button type="button" @click="closeModal()" class="btn"><i @click="closeModal()"
                                 class="fa-regular fa-circle-xmark"></i></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
-                                <label class="my-2"><b>Produto</b></label><br>
                                 <div>
                                     <label for="">Serviço:</label>
                                     <input required v-model="formProduct.service" type="text" class="form-control">
@@ -33,9 +32,9 @@
                                             <select v-model="formProduct.type" class="form-select form-select-md"
                                                 aria-label=".form-select-lg example">
                                                 <option value="A vista" selected>Qtd</option>
-                                                <option value="Parcelado">Kg</option>
-                                                <option value="Parcelado">ML(Metro linear)</option>
-                                                <option value="Parcelado">M²</option>
+                                                <option value="Kg">Kg</option>
+                                                <option value="ML">ML(Metro linear)</option>
+                                                <option value="M2">M²</option>
                                             </select>
                                         </div>
                                     </div>
@@ -53,7 +52,7 @@
                     </div>
                     <div class="modal-footer justify-content-end">
                         <div>
-                            <button type="button" class="btn btn-secondary mx-2">Fechar</button>
+                            <button type="button" @click="modal = !modal" class="btn btn-secondary mx-2">Fechar</button>
                             <button class="btn btn-primary">Salvar</button>
                         </div>
                     </div>
@@ -66,6 +65,7 @@
 </template>
 <script>
 import { collection, addDoc, setDoc, doc, deleteDoc } from "firebase/firestore";
+
 export default {
     data() {
         return {

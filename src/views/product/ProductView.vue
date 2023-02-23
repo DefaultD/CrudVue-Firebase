@@ -1,18 +1,18 @@
 <template>
-    <div class="row justify-content-between">
+    <div class="row justify-content-between W-100">
         <div class="col">
             <h3>Produtos</h3>
         </div>
-        <button type="button" @click="openModalCliente = !openModalCliente" class="btn btn-outline-primary col-2 me-3">
+        <button type="button" @click="openModalCliente = !openModalCliente" class="btn btn-outline-primary col-md-2 me-sm-3">
             Novo Produto
         </button>
     </div>
     <hr />
     <div class="row justify-content-end">
-        <div class="col-3">
+        <div class="col-md-3">
             <div class="input-group  flex-nowrap">
                 <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="text" class="form-control" placeholder="Pesquisar" aria-label="Username"
+                <input type="search" class="form-control" placeholder="Pesquisar" aria-label="Username"
                     aria-describedby="addon-wrapping">
             </div>
         </div>

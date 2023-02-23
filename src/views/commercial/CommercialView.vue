@@ -9,26 +9,29 @@
                 <input type="text" class="form-control" placeholder="Pesquisar" aria-label="Username"
                     aria-describedby="addon-wrapping">
             </div>
-            <button @click="goToLayoutOrder()" class="col h-100 btn btn-outline-primary ">
-                Novo pedido
-            </button>
+            <i class="fa-regular fa-pen-to-square" @click="goToLayoutOrder()"></i>
         </div>
     </div>
     <hr />
     <div class="mt-2 row">
-        <EasyDataTable :headers="columns" :items="rows" />
+        <EasyDataTable :headers="columns" :items="rows">
+            <template #item-operation="item">
+                <div class="operation-wrapper">
+                    <button class="btn" @click="goToLayoutOrder(item.id)"><i class="fa-regular fa-pen-to-square"></i></button>
+                </div>
+            </template>
+        </EasyDataTable>
     </div>
 </template>
 <script>
 import { EasyDataTable } from "vue3-easy-data-table";
 import { collection, query, getDocs } from "firebase/firestore";
 
-
 export default {
     name: "viewCustomer",
 
     components: {
-        EasyDataTable
+        EasyDataTable,
     },
     data() {
         return {
@@ -42,6 +45,7 @@ export default {
                 { text: "Desconto", value: "descount" },
                 { text: "Data", value: "createdAt", width: 200 },
                 { text: "Total", value: "total" },
+                { text: "Total", value: "operation" },
             ],
             rows: []
         }
@@ -50,8 +54,11 @@ export default {
         this.getOrder()
     },
     methods: {
-        goToLayoutOrder() {
-            this.$router.push('/OrderView')
+        goToLayoutOrder(id) {
+            if (id)
+                this.$router.push(`/OrderView/${id}`)
+            else
+                this.$router.push('/OrderView')
         },
         async getOrder() {
             let q = await query(collection(this.$firebase, 'Pedidos'))
@@ -61,7 +68,6 @@ export default {
                 data.id = doc.id
                 this.rows.push(data)
             });
-            console.log(this.rows)
         }
     }
 }

@@ -18,19 +18,19 @@ const routes = [
             title: 'Produtos',
             icon: "cart-shopping",
         },
-        component: () => import('../views/product/viewProduct')
+        component: () => import('../views/product/ProductView')
     },
     {
         path: '/commercial',
         name: 'commercial',
         meta: {
-            title: 'Comercial',
+            title: 'Comercial/Expedição',
             icon: "cart-shopping",
         },
         component: () => import('../views/commercial/CommercialView')
     },
     {
-        path: '/OrderView',
+        path: '/OrderView/:id?',
         name: 'order',
         component: () => import('../views/commercial/OrderView')
     },

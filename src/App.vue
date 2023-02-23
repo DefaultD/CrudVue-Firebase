@@ -2,6 +2,7 @@
     <baseSpinner v-if="loading" :visible="loading"></baseSpinner>
     <div v-else>
         <div class="container-fluid" v-if="isLogged">
+            <notifications position="top center"/>
             <div class="row">
                 <div class="col-2 navigation-sidebar">
                     <h1 class="app-tittle">Dev Tech</h1>
