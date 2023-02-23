@@ -1,14 +1,5 @@
 colocar Filtros na tela de pedidos e colocar search nas telas
-Calculo Produtos(alta prioridade)
--m²: ((Largura * altura) * quantidade) * preco 
-        ((1 * 2) * 3) * 30
-
--kg: kg * preço 
-
--ml: ml * preco
-
--qtd: qtd * preco
-
+arrumar total de kg
 Lucro liquido(alta prioridade)
 (preco de cada produto - custo) - Desconto%
 

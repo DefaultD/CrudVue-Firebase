@@ -4,20 +4,24 @@
             <h3>Comercial</h3>
         </div>
         <div class="row mx-1 h-100">
-            <div class="col h-100 input-group flex-nowrap">
-                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="text" class="form-control" placeholder="Pesquisar" aria-label="Username"
-                    aria-describedby="addon-wrapping">
-            </div>
-            <i class="fa-regular fa-pen-to-square" @click="goToLayoutOrder()"></i>
+            <button @click="goToLayoutOrder()" class="btn">
+                Novo pedido
+                <i class="fa-regular fa-pen-to-square"></i>
+            </button>
         </div>
     </div>
     <hr />
+    <div class="col input-group ">
+        <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="search" class="form-control" placeholder="Pesquisar" aria-label="Username"
+            aria-describedby="addon-wrapping">
+    </div>
     <div class="mt-2 row">
         <EasyDataTable :headers="columns" :items="rows">
             <template #item-operation="item">
                 <div class="operation-wrapper">
-                    <button class="btn" @click="goToLayoutOrder(item.id)"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="btn" @click="goToLayoutOrder(item.id)"><i
+                            class="fa-regular fa-pen-to-square"></i></button>
                 </div>
             </template>
         </EasyDataTable>

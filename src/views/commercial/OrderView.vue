@@ -319,10 +319,10 @@ export default {
             }
         },
         calcKg() {
-            this.product.total = ((this.product.width * this.product.height) * this.product.quantity) * this.product.price
+            console.log(((this.product.width * this.product.height) * this.product.quantity) * this.product.price)
         },
         calcValue() {
-            this.product.total = this.product.value * this.product.price
+            this.product.total += this.product.value * this.product.price
 
         },
         validate() {
@@ -382,7 +382,6 @@ export default {
         },
         saveProduct() {
             if (!this.product.editProduct) {
-                this.product.total = this.product.value * this.product.price
                 this.product.editProduct = true
                 this.formOrder.products.push(JSON.parse(JSON.stringify(this.product)))
             }
