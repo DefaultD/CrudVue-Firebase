@@ -248,7 +248,7 @@
     </div>
 </template>
 <script>
-import { collection, query, getDocs, addDoc } from "firebase/firestore";
+import { collection, query, getDocs, addDoc, doc, getDoc } from "firebase/firestore";
 export default {
     name: "layoutOrder",
 
@@ -302,9 +302,21 @@ export default {
     watch: {},
     methods: {
         async load() {
-
             this.getCustomers()
             this.getProducts()
+            if(this.$route.params){
+                this.getOrderById(this.$route.params)
+            }
+        },
+        async getOrderById() {
+            const docRef = doc(this.$firebase, "Pedidos", this.$route.params.id)
+            try {
+                const docSnap = await getDoc(docRef)
+                this.formOrder = docSnap.data()
+                console.log(docSnap.data())
+            } catch (error) {
+                console.log(error)
+            }
         },
         calcKg() {
             this.product.total = ((this.product.width * this.product.height) * this.product.quantity) * this.product.price
