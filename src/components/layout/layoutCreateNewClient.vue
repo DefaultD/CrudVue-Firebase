@@ -124,8 +124,6 @@ export default {
             this.formCustomer = {
                 name: '',
                 type: '',
-                id: '',
-                createdAt: '',
                 email: '',
                 lead: '',
                 phone: '',
@@ -144,6 +142,7 @@ export default {
             try {
                 await deleteDoc(doc(this.$firebase, "Clientes", this.editCustomer.id))
             } catch (error) {
+                this.$notify({ text: error.message, type: 'error' });
                 console.log(error)
             }
             this.$emit('reload')
@@ -152,7 +151,6 @@ export default {
         async submit() {
             if (this.editCustomer) {
                 const docRef = doc(this.$firebase, "Clientes", this.editCustomer.id)
-                console.log(`iuiui`)
                 try {
                     this.validate()
                     await setDoc(docRef, this.editCustomer)
@@ -161,7 +159,6 @@ export default {
                 }
             } else {
                 try {
-                    console.log(`iuiui`)
                     this.validate()
                     await addDoc(collection(this.$firebase, 'Clientes'), this.formCustomer)
                 } catch (e) {
@@ -171,8 +168,6 @@ export default {
             this.formCustomer = {
                 name: '',
                 type: '',
-                id: '',
-                createdAt: '',
                 email: '',
                 lead: '',
                 phone: '',

@@ -114,7 +114,6 @@ export default {
         },
 
         load() {
-            console.log(this.editProduct);
             if (this.editProduct) {
                 this.formProduct = this.editProduct
             }
@@ -123,6 +122,7 @@ export default {
             try {
                 await deleteDoc(doc(this.$firebase, "Produtos", this.editCustomer.id))
             } catch (error) {
+                this.$notify({ text: error, type: 'error' });
                 console.log(error)
             }
             this.$emit('reload')

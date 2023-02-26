@@ -197,50 +197,53 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel"> {{ product.service }}</h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel"> {{ productModal.service }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div v-if="this.product.type == 'Kg'">
+                        <div v-if="this.productModal.type == 'Kg'">
                             <div class="row">
                                 <div class="col">
                                     <label for="Altura">Altura</label>
-                                    <input @input="calcKg()" required v-model="product.height" type="text"
+                                    <input @input="calcKg()" required v-model="productModal.height" type="text"
                                         class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="Largura">Largura</label>
-                                    <input @input="calcKg()" required v-model="product.width" type="text"
+                                    <input @input="calcKg()" required v-model="productModal.width" type="text"
                                         class="form-control">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="Quantidade">Quantidade</label>
-                                    <input @input="calcKg()" required v-model="product.quantity" type="email"
+                                    <input @input="calcKg()" required v-model="productModal.quantity" type="email"
                                         class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="Total">Total:</label>
-                                    <input v-model="product.total" disabled type="text" class="form-control">
+                                    <input v-model="productModal.total" disabled type="text" class="form-control">
                                 </div>
                             </div>
                         </div>
                         <div v-else>
                             <div>
-                                <label for="Total">{{ product.type }}</label>
-                                <input @input="calcValue()" v-model="product.value" type="text" class="form-control">
+                                <label for="Total">{{ productModal.type }}</label>
+                                <input @input="calcValue()" v-model="productModal.value" type="number" class="form-control">
                             </div>
                             <div class="col">
                                 <label for="Total">Total:</label>
-                                <input v-model="product.total" disabled type="text" class="form-control">
+                                <input v-model="productModal.total" disabled type="text" class="form-control">
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    <div class="modal-footer" :class="{'justify-content-between': productModal.delete}">
+                        <button type="button" v-if="productModal.delete" class="btn btn-outline-secondary" @click="deleteProduct()" data-bs-dismiss="modal"><i class="fa-solid fa-trash"></i></button>
+                        <div>
+                            <button type="button" class="btn btn-outline-secondary" @click="productModal = {}" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class=" ms-2 btn btn-outline-primary" data-bs-dismiss="modal"
                             @click="saveProduct()">Adicionar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -248,7 +251,7 @@
     </div>
 </template>
 <script>
-import { collection, query, getDocs, addDoc, doc, getDoc } from "firebase/firestore";
+import { collection, query, getDocs, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
 export default {
     name: "layoutOrder",
 
@@ -265,7 +268,16 @@ export default {
                 unit: 0,
             },
             custommers: [],
-            product: {
+            productModal: {
+                name: '',
+                type: '',
+                quantity: 0,
+                value: 0,
+                width: 0,
+                height: 0,
+                total: 0,
+            },
+            originalProductModal: {
                 name: '',
                 type: '',
                 quantity: 0,
@@ -299,12 +311,29 @@ export default {
     mounted() {
         this.load()
     },
-    watch: {},
+    watch: {
+        "formOrder.discount"(_){
+            if(_){
+                // fazer subtracao de porcentagem
+            }
+        },
+        "formOrder.products": {
+            handler() {
+                let total = 0
+                let array = this.formOrder.products.map((p) => p.total)
+                for (let item of array) {
+                    total += item
+                }
+                this.formOrder.total = total
+            },
+            deep: true,
+        },
+    },
     methods: {
         async load() {
             this.getCustomers()
             this.getProducts()
-            if(this.$route.params){
+            if (this.$route.params.id) {
                 this.getOrderById(this.$route.params)
             }
         },
@@ -313,17 +342,19 @@ export default {
             try {
                 const docSnap = await getDoc(docRef)
                 this.formOrder = docSnap.data()
-                console.log(docSnap.data())
             } catch (error) {
                 console.log(error)
             }
         },
         calcKg() {
-            console.log(((this.product.width * this.product.height) * this.product.quantity) * this.product.price)
+            this.productModal.total = ((this.productModal.width * this.productModal.height) * this.productModal.quantity) * this.productModal.price
         },
         calcValue() {
-            this.product.total += this.product.value * this.product.price
-
+            this.productModal.total = this.productModal.value * this.productModal.price
+        },
+        deleteProduct(){
+            let index = this.formOrder.products.findIndex((_) => JSON.stringify(_) == JSON.stringify(this.originalProductModal))
+            this.formOrder.products.splice(index, 1)
         },
         validate() {
             if (!this.formOrder.custommerId) {
@@ -344,14 +375,21 @@ export default {
             }
         },
         async submit() {
-
             try {
                 this.validate()
-                await addDoc(collection(this.$firebase, 'Pedidos'), this.formOrder)
+                if (this.$route.params.id) {
+                    const docRef = doc(this.$firebase, "Pedidos", this.$route.params.id)
+                    await setDoc(docRef, this.formOrder)
+                } else {
+                    const docRef = await addDoc(collection(this.$firebase, 'Pedidos'), this.formOrder);
+                    this.$router.push(`/OrderView/${docRef.id}`)
+                }
+                this.$notify({ text: "Pedido salvo com sucesso", type: 'success' });
+                this.load()
             } catch (e) {
+                this.$notify({ text: e, type: 'error' });
                 console.error('Error adding document: ', e)
             }
-            this.$emit('reload')
         },
         async getProducts() {
             let q = await query(collection(this.$firebase, 'Produtos'))
@@ -368,27 +406,28 @@ export default {
             this.formOrder.custommerId = custommer.id
         },
         editProduct(item) {
-            this.product = item
-            if (this.product.type == 'Kg') this.calcKg()
+            this.originalProductModal = JSON.parse(JSON.stringify(item))
+            this.productModal = JSON.parse(JSON.stringify(item))
+            this.productModal.delete = true
+            if (this.productModal.type == 'Kg') this.calcKg()
             else this.calcValue()
         },
         configProduct(item) {
             if (item.editProduct) {
                 item.editProduct = false
             }
-            this.product = JSON.parse(JSON.stringify(item))
-            if (this.product.type == 'Kg') this.calcKg()
+            this.productModal = JSON.parse(JSON.stringify(item))
+            if (this.productModal.type == 'Kg') this.calcKg()
             else this.calcValue()
         },
         saveProduct() {
-            if (!this.product.editProduct) {
-                this.product.editProduct = true
-                this.formOrder.products.push(JSON.parse(JSON.stringify(this.product)))
+            if (!this.productModal.editProduct) {
+                this.productModal.editProduct = true
+                this.formOrder.products.push(JSON.parse(JSON.stringify(this.productModal)))
+            }else{
+                let index = this.formOrder.products.findIndex((_) => JSON.stringify(_) == JSON.stringify(this.originalProductModal))
+                this.formOrder.products[index] = this.productModal
             }
-            this.calcTotalPrice(this.product.total)
-        },
-        calcTotalPrice(value) {
-            this.formOrder.total += value
         },
         async getCustomers() {
             let q = await query(collection(this.$firebase, 'Clientes'))

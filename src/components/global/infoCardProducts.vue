@@ -41,15 +41,6 @@ export default {
         recarregar() {
             this.$emit('reload')
         },
-        formatDate(time) {
-            // let date = new Date(time)
-            console.log(time)
-            // let d = date.getDay()
-            // let m = date.getMonth()
-            // let y = date.getFullYear()
-
-            // return `${d}/${m}/${y}`
-        }
     },
     components: {
         layoutCreateNewProduct

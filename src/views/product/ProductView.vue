@@ -51,7 +51,6 @@ export default {
             await this.getProducts()
         },
         async getProducts() {
-            console.log(this.productsData)
             let q = await query(collection(this.$firebase, 'Produtos'))
             let querySnapshot = await getDocs(q)
             this.productsData = []

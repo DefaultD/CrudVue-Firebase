@@ -34,7 +34,7 @@
         </div>
         <div class="card-footer row justify-content-between">
             <div class="col pt-2" style="color: var(--darker);">
-                Criado • {{ formatDate(data.createdAt.seconds) }}
+                Criado • {{ formatDate(data) }}
             </div>
             <div class="col-2 text-end">
                 <button class="btn" @click="openModalCliente = !openModalCliente"><i class="fa-regular fa-sun"></i></button>
@@ -61,14 +61,11 @@ export default {
             //     let date = new Date(timestamp)
             //     return date
             // },
-        formatDate(time) {
-            // let date = new Date(time)
-            console.log(time)
-            // let d = date.getDay()
-            // let m = date.getMonth()
-            // let y = date.getFullYear()
 
-            // return `${d}/${m}/${y}`
+        formatDate(timeStamp) {
+            const date = new Date(timeStamp * 1000)
+            const formattedDate = date.toLocaleString('pt-BR', { timeZone: 'UTC' });
+            return formattedDate
         }
     },
     components: {

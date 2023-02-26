@@ -52,7 +52,8 @@ export default {
                 window.uid = res.user.uid
                 this.$router.push({ name: 'home' })
             } catch (error) {
-                console.log('err', error)
+                this.$notify({ text: "Verifique suas credenciais!", type: 'error' });
+                console.log('err', error.message)
             }
             this.loading = false
         }

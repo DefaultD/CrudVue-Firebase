@@ -4,10 +4,12 @@
             <h3>Comercial</h3>
         </div>
         <div class="row mx-1 h-100">
-            <button @click="goToLayoutOrder()" class="btn">
-                Novo pedido
-                <i class="fa-regular fa-pen-to-square"></i>
+            <button @click="goToLayoutOrder()" class="btn-order"> Novo pedido
             </button>
+            <!-- <button  class="btn">
+                
+                <i class="fa-regular fa-pen-to-square"></i>
+            </button> -->
         </div>
     </div>
     <hr />
@@ -22,6 +24,11 @@
                 <div class="operation-wrapper">
                     <button class="btn" @click="goToLayoutOrder(item.id)"><i
                             class="fa-regular fa-pen-to-square"></i></button>
+                </div>
+            </template>
+            <template #item-createdAt="item">
+                <div class="operation-wrapper">
+                    {{ readTimestamp(item.createdAt.seconds) }}
                 </div>
             </template>
         </EasyDataTable>
@@ -58,6 +65,11 @@ export default {
         this.getOrder()
     },
     methods: {
+        readTimestamp(timeStamp){
+            const date = new Date(timeStamp * 1000)
+            const formattedDate = date.toLocaleString('pt-BR', { timeZone: 'UTC' });
+            return formattedDate
+        },
         goToLayoutOrder(id) {
             if (id)
                 this.$router.push(`/OrderView/${id}`)
@@ -76,3 +88,61 @@ export default {
     }
 }
 </script>
+<style scoped>
+.btn-order {
+    --color: #00A97F;
+    --color2: rgb(10, 25, 30);
+    background-color: transparent;
+    border-radius: 6px;
+    border: .3px solid var(--featured);
+    transition: .5s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1;
+    font-weight: 300;
+    font-size: 17px;
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    color: var(--featured);
+}
+
+.btn-order::after,
+.btn-order::before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform: skew(90deg) translate(-50%, -50%);
+    position: absolute;
+    inset: 50%;
+    left: 25%;
+    z-index: -1;
+    transition: .5s ease-out;
+    background-color: var(--featured);
+}
+
+.btn-order::before {
+    top: -50%;
+    left: -25%;
+    transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+}
+
+.btn-order:hover::before {
+
+    transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
+}
+
+.btn-order:hover::after {
+    transform: skew(45deg) translate(-50%, -50%);
+}
+
+.btn-order:hover {
+    color: var(--light);
+}
+
+.btn-order:active {
+    filter: brightness(.7);
+    transform: scale(.98);
+}
+</style>
