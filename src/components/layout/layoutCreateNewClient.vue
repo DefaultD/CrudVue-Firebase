@@ -85,7 +85,6 @@ export default {
                 name: '',
                 type: '',
                 id: '',
-                createdAt: '',
                 email: '',
                 lead: '',
                 phone: '',
@@ -153,14 +152,24 @@ export default {
                 const docRef = doc(this.$firebase, "Clientes", this.editCustomer.id)
                 try {
                     this.validate()
-                    await setDoc(docRef, this.editCustomer)
+                    let payload = {
+                        lastUpdate: new Date(),
+                        ...this.formCustomer
+                    }
+                    await setDoc(docRef, payload)
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }
             } else {
                 try {
                     this.validate()
-                    await addDoc(collection(this.$firebase, 'Clientes'), this.formCustomer)
+                    let payload = {
+                        createdAt: new Date(),
+                        lastUpdate: new Date(),
+                        ...this.formCustomer
+                    }
+                    console.log(payload)
+                    await addDoc(collection(this.$firebase, 'Clientes'), payload)
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }

@@ -188,7 +188,9 @@
                     <!-- <label class="px-3 d-none d-sm-block">Lucro liquido {{ formOrder.profit }} R$</label> -->
                     <label for="">Total {{ formOrder.total }} R$</label>
                 </div>
-                <button class="btn btn-outline-primary h-100">cancelar</button>
+                <router-link :to="{ name: 'commercial' }">
+                    <button class="btn btn-outline-primary h-100">Voltar</button>
+                </router-link>
                 <button class="btn btn-primary mx-2 h-100" @click="submit">Salvar</button>
             </div>
         </div>
@@ -237,12 +239,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer" :class="{'justify-content-between': productModal.delete}">
-                        <button type="button" v-if="productModal.delete" class="btn btn-outline-secondary" @click="deleteProduct()" data-bs-dismiss="modal"><i class="fa-solid fa-trash"></i></button>
+                    <div class="modal-footer" :class="{ 'justify-content-between': productModal.delete }">
+                        <button type="button" v-if="productModal.delete" class="btn btn-outline-secondary"
+                            @click="deleteProduct()" data-bs-dismiss="modal"><i class="fa-solid fa-trash"></i></button>
                         <div>
-                            <button type="button" class="btn btn-outline-secondary" @click="productModal = {}" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-secondary" @click="productModal = {}"
+                                data-bs-dismiss="modal">Cancelar</button>
                             <button type="button" class=" ms-2 btn btn-outline-primary" data-bs-dismiss="modal"
-                            @click="saveProduct()">Adicionar</button>
+                                @click="saveProduct()">Adicionar</button>
                         </div>
                     </div>
                 </div>
@@ -301,7 +305,6 @@ export default {
                 payment: '',
                 address: '',
                 complement: '',
-                createdAt: new Date(),
                 discount: 0,
                 // profit: 0,
                 notes: ''
@@ -312,24 +315,34 @@ export default {
         this.load()
     },
     watch: {
-        "formOrder.discount"(_){
-            if(_){
-                // fazer subtracao de porcentagem
-            }
+        "formOrder.freight"() {
+            this.getTotal()
+        },
+        "formOrder.discount"() {
+            this.getTotal()
         },
         "formOrder.products": {
             handler() {
-                let total = 0
-                let array = this.formOrder.products.map((p) => p.total)
-                for (let item of array) {
-                    total += item
-                }
-                this.formOrder.total = total
+                this.getTotal()
             },
             deep: true,
         },
     },
     methods: {
+        getTotal() {
+            let total = 0
+            let array = this.formOrder.products.map((p) => p.total)
+            for (let item of array) {
+                total += item
+            }
+            total = Number(total) + Number(this.formOrder.freight)
+            if (this.formOrder.products.length > 0 && this.formOrder.discount) {
+                let discount = (total * this.formOrder.discount) / 100
+                this.formOrder.total = total - discount
+            } else {
+                this.formOrder.total = total
+            }
+        },
         async load() {
             this.getCustomers()
             this.getProducts()
@@ -352,7 +365,7 @@ export default {
         calcValue() {
             this.productModal.total = this.productModal.value * this.productModal.price
         },
-        deleteProduct(){
+        deleteProduct() {
             let index = this.formOrder.products.findIndex((_) => JSON.stringify(_) == JSON.stringify(this.originalProductModal))
             this.formOrder.products.splice(index, 1)
         },
@@ -379,9 +392,18 @@ export default {
                 this.validate()
                 if (this.$route.params.id) {
                     const docRef = doc(this.$firebase, "Pedidos", this.$route.params.id)
-                    await setDoc(docRef, this.formOrder)
+                    const payload = {
+                        lastUpdate: new Date(),
+                        ...this.formOrder
+                    }
+                    await setDoc(docRef, payload)
                 } else {
-                    const docRef = await addDoc(collection(this.$firebase, 'Pedidos'), this.formOrder);
+                    const payload = {
+                        createdAt: new Date(),
+                        lastUpdate: new Date(),
+                        ...this.formOrder
+                    }
+                    const docRef = await addDoc(collection(this.$firebase, 'Pedidos'), payload);
                     this.$router.push(`/OrderView/${docRef.id}`)
                 }
                 this.$notify({ text: "Pedido salvo com sucesso", type: 'success' });
@@ -424,7 +446,7 @@ export default {
             if (!this.productModal.editProduct) {
                 this.productModal.editProduct = true
                 this.formOrder.products.push(JSON.parse(JSON.stringify(this.productModal)))
-            }else{
+            } else {
                 let index = this.formOrder.products.findIndex((_) => JSON.stringify(_) == JSON.stringify(this.originalProductModal))
                 this.formOrder.products[index] = this.productModal
             }

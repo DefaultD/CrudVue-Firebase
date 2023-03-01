@@ -6,10 +6,6 @@
         <div class="row mx-1 h-100">
             <button @click="goToLayoutOrder()" class="btn-order"> Novo pedido
             </button>
-            <!-- <button  class="btn">
-                
-                <i class="fa-regular fa-pen-to-square"></i>
-            </button> -->
         </div>
     </div>
     <hr />
@@ -26,9 +22,9 @@
                             class="fa-regular fa-pen-to-square"></i></button>
                 </div>
             </template>
-            <template #item-createdAt="item">
+            <template #item-lastUpdate="item">
                 <div class="operation-wrapper">
-                    {{ readTimestamp(item.createdAt.seconds) }}
+                    {{ formatDate(item.lastUpdate?.seconds) }}
                 </div>
             </template>
         </EasyDataTable>
@@ -54,9 +50,9 @@ export default {
                 { text: "Endereço", value: "address" },
                 { text: "Frete", value: "freight" },
                 { text: "Desconto", value: "descount" },
-                { text: "Data", value: "createdAt", width: 200 },
+                { text: "Ultima atualizacao", value: "lastUpdate", width: 200 },
                 { text: "Total", value: "total" },
-                { text: "Total", value: "operation" },
+                { text: "", value: "operation" },
             ],
             rows: []
         }
@@ -65,10 +61,24 @@ export default {
         this.getOrder()
     },
     methods: {
-        readTimestamp(timeStamp){
-            const date = new Date(timeStamp * 1000)
-            const formattedDate = date.toLocaleString('pt-BR', { timeZone: 'UTC' });
-            return formattedDate
+        formatDate(timeStamp) {
+            const time = timeStamp * 1000
+            const date = new Date(time); // Crie um objeto de data com o timestamp
+
+            // Formate a data de acordo com suas necessidades
+            const dia = date.getDate().toString().padStart(2, '0'); // Obtém o dia e adiciona um zero à esquerda se necessário
+            const mes = (date.getMonth() + 1).toString().padStart(2, '0'); // Obtém o mês (lembre-se de que o mês começa em 0) e adiciona um zero à esquerda se necessário
+            const ano = date.getFullYear();
+            const horas = date.getHours().toString().padStart(2, '0'); // Obtém as horas e adiciona um zero à esquerda se necessário
+            const minutos = date.getMinutes().toString().padStart(2, '0'); // Obtém os minutos e adiciona um zero à esquerda se necessário
+            const segundos = date.getSeconds().toString().padStart(2, '0'); // Obtém os segundos e adiciona um zero à esquerda se necessário
+
+            const dataFormatada = `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`; // Cria a string formatada
+            if(timeStamp){
+                return dataFormatada
+            }else {
+                return
+            }
         },
         goToLayoutOrder(id) {
             if (id)
