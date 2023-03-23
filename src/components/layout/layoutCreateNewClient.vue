@@ -168,7 +168,6 @@ export default {
                         lastUpdate: new Date(),
                         ...this.formCustomer
                     }
-                    console.log(payload)
                     await addDoc(collection(this.$firebase, 'Clientes'), payload)
                 } catch (e) {
                     console.error('Error adding document: ', e)

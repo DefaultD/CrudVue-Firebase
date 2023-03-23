@@ -12,7 +12,7 @@
         <div class="col-md-3">
             <div class="input-group  flex-nowrap">
                 <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="search" class="form-control" placeholder="Pesquisar" aria-label="Username"
+                <input type="search" v-model="search" @keyup.prevent.enter="searchProduct()"  class="form-control" placeholder="Pesquisar" aria-label="Username"
                     aria-describedby="addon-wrapping">
             </div>
         </div>
@@ -41,11 +41,18 @@ export default {
         return {
             openModal: false,
             openModalCliente: false,
-            productsData: []
+            productsData: [],
+            search: ""
         }
     },
 
     methods: {
+        async searchProduct() {
+            if (this.search)
+                this.productsData = this.productsData.filter(obj => obj.service.toLowerCase().includes(this.search.toLowerCase()) || obj.type.toLowerCase().includes(this.search.toLowerCase()) || obj.material.toLowerCase().includes(this.search.toLowerCase()));
+            else
+                this.getProducts()
+        },
         async load() {
             this.productsData = []
             await this.getProducts()

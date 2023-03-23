@@ -11,8 +11,8 @@
     <hr />
     <div class="col input-group ">
         <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-        <input type="search" class="form-control" placeholder="Pesquisar" aria-label="Username"
-            aria-describedby="addon-wrapping">
+        <input type="search" class="form-control" v-model="search" @keyup.prevent.enter="searchOrder()"
+            placeholder="Pesquisar" aria-label="Username" aria-describedby="addon-wrapping">
     </div>
     <div class="mt-2 row">
         <EasyDataTable :headers="columns" :items="rows">
@@ -54,7 +54,8 @@ export default {
                 { text: "Total", value: "total" },
                 { text: "", value: "operation" },
             ],
-            rows: []
+            rows: [],
+            search: ""
         }
     },
     mounted() {
@@ -74,9 +75,9 @@ export default {
             const segundos = date.getSeconds().toString().padStart(2, '0'); // Obtém os segundos e adiciona um zero à esquerda se necessário
 
             const dataFormatada = `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`; // Cria a string formatada
-            if(timeStamp){
+            if (timeStamp) {
                 return dataFormatada
-            }else {
+            } else {
                 return
             }
         },
@@ -86,8 +87,16 @@ export default {
             else
                 this.$router.push('/OrderView')
         },
+        async searchOrder() {
+            if (this.search) {
+                this.rows = this.rows.filter(obj => obj.id.toLowerCase().includes(this.search.toLowerCase()) || obj.name.toLowerCase().includes(this.search.toLowerCase()) || obj.state.toLowerCase().includes(this.search.toLowerCase()) || obj.type.toLowerCase().includes(this.search.toLowerCase()));
+            }
+            else {
+                this.getOrder()
+            }
+        },
         async getOrder() {
-            let q = await query(collection(this.$firebase, 'Pedidos'))
+            let q = query(collection(this.$firebase, 'Pedidos'))
             let querySnapshot = await getDocs(q)
             querySnapshot.forEach((doc) => {
                 let data = doc.data()

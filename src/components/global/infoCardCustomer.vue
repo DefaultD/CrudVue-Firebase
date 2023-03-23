@@ -57,13 +57,8 @@ export default {
         recarregar() {
             this.$emit('reload')
         },
-        // convertTimestampForDate(timestamp) {
-        //     let date = new Date(timestamp)
-        //     return date
-        // },
 
         formatDate(timeStamp) {
-            console.log(timeStamp)
             const time = timeStamp * 1000
             const date = new Date(time); // Crie um objeto de data com o timestamp
 
