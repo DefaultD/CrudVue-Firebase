@@ -85,7 +85,6 @@ export default {
                 name: '',
                 type: '',
                 id: '',
-                createdAt: '',
                 email: '',
                 lead: '',
                 phone: '',
@@ -124,8 +123,6 @@ export default {
             this.formCustomer = {
                 name: '',
                 type: '',
-                id: '',
-                createdAt: '',
                 email: '',
                 lead: '',
                 phone: '',
@@ -144,6 +141,7 @@ export default {
             try {
                 await deleteDoc(doc(this.$firebase, "Clientes", this.editCustomer.id))
             } catch (error) {
+                this.$notify({ text: error.message, type: 'error' });
                 console.log(error)
             }
             this.$emit('reload')
@@ -152,18 +150,25 @@ export default {
         async submit() {
             if (this.editCustomer) {
                 const docRef = doc(this.$firebase, "Clientes", this.editCustomer.id)
-                console.log(`iuiui`)
                 try {
                     this.validate()
-                    await setDoc(docRef, this.editCustomer)
+                    let payload = {
+                        lastUpdate: new Date(),
+                        ...this.formCustomer
+                    }
+                    await setDoc(docRef, payload)
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }
             } else {
                 try {
-                    console.log(`iuiui`)
                     this.validate()
-                    await addDoc(collection(this.$firebase, 'Clientes'), this.formCustomer)
+                    let payload = {
+                        createdAt: new Date(),
+                        lastUpdate: new Date(),
+                        ...this.formCustomer
+                    }
+                    await addDoc(collection(this.$firebase, 'Clientes'), payload)
                 } catch (e) {
                     console.error('Error adding document: ', e)
                 }
@@ -171,8 +176,6 @@ export default {
             this.formCustomer = {
                 name: '',
                 type: '',
-                id: '',
-                createdAt: '',
                 email: '',
                 lead: '',
                 phone: '',

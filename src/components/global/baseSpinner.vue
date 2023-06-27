@@ -17,11 +17,6 @@ export default {
     props: {
         visible: { type: Boolean, default: () => true }
     },
-    created() {
-        console.log(this.$root)
-        // this.$root.$on('baseSpinner::show', () => { this.visible = true })
-        // this.$root.$on('baseSpinner::hide', () => { this.visible = false })
-    },
 }
 </script>
 <style lang="scss" scoped>

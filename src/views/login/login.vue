@@ -3,7 +3,7 @@
         <form @submit.prevent="doLogin()" class="form-login">
             <div class="card">
                 <div class="card-header text-center">
-                    <h1 class="mb-0">Expenses</h1>
+                    <h1 class="mb-0">DevTech</h1>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -52,7 +52,8 @@ export default {
                 window.uid = res.user.uid
                 this.$router.push({ name: 'home' })
             } catch (error) {
-                console.log('err', error)
+                this.$notify({ text: "Verifique suas credenciais!", type: 'error' });
+                console.log('err', error.message)
             }
             this.loading = false
         }

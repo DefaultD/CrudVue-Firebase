@@ -5,34 +5,10 @@ const routes = [
         path: '/',
         name: 'customer',
         meta: {
-            title: 'Clientes',
-            icon: "people-group",
+            title: 'Dashboard',
+            icon: "thin fa-house-chimney",
         },
         component: () => import('../views/customer/CustomersView')
-    },
-    {
-        path: '/viewProduct',
-        name: 'product',
-        meta: {
-
-            title: 'Produtos',
-            icon: "cart-shopping",
-        },
-        component: () => import('../views/product/ProductView')
-    },
-    {
-        path: '/commercial',
-        name: 'commercial',
-        meta: {
-            title: 'Comercial/Expedição',
-            icon: "cart-shopping",
-        },
-        component: () => import('../views/commercial/CommercialView')
-    },
-    {
-        path: '/OrderView/:id?',
-        name: 'order',
-        component: () => import('../views/commercial/OrderView')
     },
     {
         path: '/login',
