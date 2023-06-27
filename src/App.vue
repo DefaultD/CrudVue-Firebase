@@ -1,12 +1,11 @@
 <template>
-    <notifications position="top center"/>
+    <notifications position="top center" />
     <baseSpinner v-if="loading" :visible="loading"></baseSpinner>
     <div v-else>
         <div class="container-fluid" v-if="isLogged">
-            <notifications position="top center"/>
+            <notifications position="top center" />
             <div class="row">
-                <div class="col-2 navigation-sidebar">
-                    <h1 class="app-tittle">Dev Tech</h1>
+                <div class="col-md-2 col-sm-4 col-8 navigation-sidebar">
                     <layoutNavigation />
                 </div>
                 <div class="col mt-3">
@@ -57,11 +56,12 @@ export default {
 #app {
     min-height: 100vh;
     color: var(--featured);
-    background-color: var(--light-medium);
+    background-color: var(--light);
 
     .navigation-sidebar {
-        background-color: var(--dark-medium);
-
+        background-color: var(--light-medium);
+        border-radius: 0 23px 23px 0;
+        height: 100vh;
         .app-tittle {
             font-size: 20pt;
             margin-top: 10px;
