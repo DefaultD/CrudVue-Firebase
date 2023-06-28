@@ -3,7 +3,7 @@
         <div class="flex-grow-1">
             <div class="d-flex justify-content-center pt-2">
                 <div style="border: 2px solid;" class="rounded-image">
-                    <img src="/img/perfil.2479f9b5.webp" alt="my perfil" class="img-fluid">
+                    <img src="../assets/scss/perfil.webp" alt="my perfil" class="img-fluid">
                 </div>
             </div>
             <div class="text-center  text-white mb-0 pt-2">

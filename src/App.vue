@@ -42,7 +42,7 @@ export default {
         onAuthStateChanged(auth, (user) => {
             window.uid = user ? user.uid : null
             this.isLogged = !!user
-            this.$router.push({ name: window.uid ? 'customer' : 'login' })
+            this.$router.push({ name: window.uid ? 'dashboard' : 'login' })
             this.loading = false
         })
     },
