@@ -3,21 +3,18 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     {
         path: '/',
-        name: 'customer',
+        name: 'dashboard',
         meta: {
             title: 'Dashboard',
             icon: "thin fa-house-chimney",
         },
-        component: () => import('../views/customer/CustomersView')
+        component: () => import('../views/dashboard/dashboard')
     },
     {
         path: '/login',
         name: 'login',
         component: () => import('../views/login/login')
     },
-
-
-
 ]
 
 const router = createRouter({
