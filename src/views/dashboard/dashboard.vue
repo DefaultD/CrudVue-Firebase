@@ -12,7 +12,7 @@
     </div>
     <div style="background-color: var(--light-medium);" class="rounded">
         <div class="d-flex justify-content-between p-2">
-            <div><h2 style="color: var(--dark-low);" class=""><b>Tarefas</b></h2></div>
+            <div><h2 style="color: var(--dark-low);" class=""><b>Tarefass</b></h2></div>
             <div><input class="rounded m-2" placeholder="Pesquise aqui" type="search"></div>    
         </div>
         <table class="table">
