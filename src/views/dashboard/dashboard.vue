@@ -10,7 +10,7 @@
             <infoCardTask :data="data" />
         </div>
     </div>
-    <div style="background-color: var(--light-medium); min-height: 699px;" class="rounded">
+    <div style="background-color: var(--light-medium); " class="rounded">
         <div class="d-flex justify-content-between p-2">
             <div>
                 <h2 style="color: var(--dark-low);" class=""><b>Tarefas</b></h2>
@@ -56,6 +56,8 @@
 <script>
 // import { collection, query, getDocs } from "firebase/firestore";
 import infoCardTask from '@/components/global/infoCardTask.vue'
+// import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 export default {
     name: "viewCustomer",
@@ -103,13 +105,22 @@ export default {
             await this.getFlashCards()
         },
         async getFlashCards() {
-            let amountTasks = 255
+            console.log(this.$firebase.app)
+            // const db = firebase.firestore();
+            // const colecao = db.collection('Tasks');
+
+
+            // let amountTasks = await colecao.get().then((snapshot) => {
+            //     return snapshot.size;
+            // }).catch((error) => {
+            //     console.error('Erro ao contar documentos:', error);
+            // });
             let completedTasks = 55
             let unresolvedTasks = 200
             this.cardData = [{
                 title: 'Tasks',
                 label: 'Quantidade de tarefas cadastradas:',
-                data: amountTasks
+                // data: amountTasks
             },
             {
                 title: 'Tasks',
@@ -122,6 +133,7 @@ export default {
                 data: unresolvedTasks
             }]
         }
+
         // searchCustomer() {
         // if (this.search)
         // this.customersData = this.customersData.filter(obj => obj.address.toLowerCase().includes(this.search.toLowerCase()) || obj.name.toLowerCase().includes(this.search.toLowerCase()) || obj.email.toLowerCase().includes(this.search.toLowerCase()));
@@ -148,43 +160,44 @@ export default {
 </script>
 <style>
 .group {
- display: flex;
- line-height: 28px;
- align-items: center;
- position: relative;
- max-width: 190px;
+    display: flex;
+    line-height: 28px;
+    align-items: center;
+    position: relative;
+    max-width: 190px;
 }
 
 .input {
- width: 100%;
- height: 40px;
- line-height: 28px;
- padding: 0 1rem;
- padding-left: 2.5rem;
- border: 2px solid transparent;
- border-radius: 8px;
- outline: none;
- background-color: #f3f3f4;
- color: #0d0c22;
- transition: .3s ease;
+    width: 100%;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 1rem;
+    padding-left: 2.5rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    transition: .3s ease;
 }
 
 .input::placeholder {
- color: #9e9ea7;
+    color: #9e9ea7;
 }
 
-.input:focus, input:hover {
- outline: none;
- border-color: rgba(64,123,255,0.4);
- background-color: #fff;
- box-shadow: 0 0 0 4px rgba(76, 100, 234, 0.1);
+.input:focus,
+input:hover {
+    outline: none;
+    border-color: rgba(64, 123, 255, 0.4);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(76, 100, 234, 0.1);
 }
 
 .icon {
- position: absolute;
- left: 1rem;
- fill: #9e9ea7;
- width: 1rem;
- height: 1rem;
+    position: absolute;
+    left: 1rem;
+    fill: #9e9ea7;
+    width: 1rem;
+    height: 1rem;
 }
 </style>
