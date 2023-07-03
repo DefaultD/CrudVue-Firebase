@@ -35,13 +35,12 @@
                 </tr>
             </thead>
             <tbody>
-                <div>
-                    <tr v-for="item in data" :key="item.id">
-                        <td v-for="col in columns" :key="col.id">{{ item[col.field] }}</td>
-                    </tr>
-                </div>
+                <tr v-for="item in data" :key="item.id">
+                    <td scope="col" v-for="col in columns" class="text-center" :key="col.id">{{ item[col.field] }}</td>
+                </tr>
             </tbody>
         </table>
+
         <div v-else style="text-align: center;" class="w-100 justify-content-center">
             <img style="width: 600px; height: 600px;" src="../../assets/scss/avocado-tree-rafiki.png" />
             <div class="row">
@@ -54,9 +53,8 @@
 </template>
 
 <script>
-// import { collection, query, getDocs } from "firebase/firestore";
+import { where, collection, query, getDocs } from "firebase/firestore";
 import infoCardTask from '@/components/global/infoCardTask.vue'
-// import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 export default {
@@ -84,8 +82,8 @@ export default {
                 },
                 {
                     id: 3,
-                    name: 'Status',
-                    field: 'status',
+                    name: 'Completa',
+                    field: 'completed',
                 },
                 {
                     id: 4,
@@ -93,62 +91,52 @@ export default {
                     field: 'created_at'
                 }
             ],
-            data: [{
-                id: 0,
-                name: 'Nome',
-            }]
+            data: [],
+
         }
     },
 
     methods: {
         async load() {
+            let collectionRef = collection(this.$firebase, 'Tasks');
+            let d = query(collectionRef)
+            let querySnapshot = await getDocs(d)
+            querySnapshot.forEach((doc) => {
+                let data = doc.data()
+                data.id = doc.id
+                this.data.push(data)
+            });
             await this.getFlashCards()
         },
         async getFlashCards() {
-            console.log(this.$firebase.app)
-            // const db = firebase.firestore();
-            // const colecao = db.collection('Tasks');
-
-
-            // let amountTasks = await colecao.get().then((snapshot) => {
-            //     return snapshot.size;
-            // }).catch((error) => {
-            //     console.error('Erro ao contar documentos:', error);
-            // });
-            let completedTasks = 55
-            let unresolvedTasks = 200
             this.cardData = [{
                 title: 'Tasks',
                 label: 'Quantidade de tarefas cadastradas:',
-                // data: amountTasks
+                data: this.data.length
             },
             {
                 title: 'Tasks',
                 label: 'Quantidade de tarefas resolvidas:',
-                data: completedTasks
+                data: await this.getCompletedTasks()
             },
             {
                 title: 'Tasks',
                 label: 'Quantidade de tarefas não resolvidas',
-                data: unresolvedTasks
+                data: await this.getUnresolvedTasks()
             }]
+        },
+        async getCompletedTasks() {
+            let collectionRef = collection(this.$firebase, 'Tasks');
+            let q = query(collectionRef, where('completed', '==', true));
+            let querySnapshot = await getDocs(q);
+            return  querySnapshot.size;
+        },
+        async getUnresolvedTasks() {
+            let collectionRef = collection(this.$firebase, 'Tasks');
+            let q = query(collectionRef, where('completed', '!=', true));
+            let querySnapshot = await getDocs(q);
+            return querySnapshot.size;
         }
-
-        // searchCustomer() {
-        // if (this.search)
-        // this.customersData = this.customersData.filter(obj => obj.address.toLowerCase().includes(this.search.toLowerCase()) || obj.name.toLowerCase().includes(this.search.toLowerCase()) || obj.email.toLowerCase().includes(this.search.toLowerCase()));
-        // else
-        //     this.getCustomers()
-        // },
-        // async getCustomers() {
-        //     let q = await query(collection(this.$firebase, 'Clientes'))
-        //     let querySnapshot = await getDocs(q)
-        //     querySnapshot.forEach((doc) => {
-        //         let data = doc.data()
-        //         data.id = doc.id
-        //         this.customersData.push(data)
-        //     });
-        // }
     },
 
     components: {

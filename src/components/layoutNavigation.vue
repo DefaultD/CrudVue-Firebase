@@ -1,14 +1,15 @@
 <template>
     <div class="d-flex flex-column min-vh-100">
         <div class="flex-grow-1">
-            <div class="d-flex justify-content-center pt-2">
-                <div style="border: 2px solid;" class="rounded-image">
+            <div class="d-flex justify-content-center modalPerfil pt-2">
+                <div style="border: 2px solid; cursor: pointer;" class="rounded-image" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
                     <img src="../assets/scss/perfil.webp" alt="my perfil" class="img-fluid">
                 </div>
             </div>
             <div class="text-center  text-white mb-0 pt-2">
-                <b class="user-name">Nome do Usuário</b>
-                <p class="title">Título</p>
+                <b class="user-name">{{ user.name }}</b>
+                <p class="title">{{ user.subtitle }}</p>
             </div>
             <hr style="margin-bottom: 0px;" />
             <div class="pt-2 page"><b>Pages</b></div>
@@ -27,14 +28,65 @@
             <div class="logout" @click="logout()"><i class="fa-solid fa-power-off pe-2"></i>Logout </div>
         </div>
     </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center" id="staticBackdropLabel">Meu perfil</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="justify-content-center d-flex">
+                            <div style="border: 2px solid;" class="rounded-image-modal">
+                                <img src="../assets/scss/perfil.webp" alt="my perfil" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6 d-block">
+                            <label><b>Nome</b></label>
+                            <input v-model="user.name" class="rounded" />
+                        </div>
+                        <div class="col-6 d-block">
+                            <label><b>Apelido</b></label>
+                            <input v-model="user.subtitle" class="rounded" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import { getAuth, signOut } from 'firebase/auth'
+import { where, collection, query, getDocs } from "firebase/firestore";
 
 export default {
     name: 'layoutNavigation',
-
+    data() {
+        return {
+            user: {
+                name: 'Kaue',
+                subtitle: 'Developer'
+            }
+        }
+    },
+    mounted() {
+        this.load()
+    },
     methods: {
+        async load() {
+            let collectionRef = collection(this.$firebase, 'Users');
+            let q = query(collectionRef, where('id', '==', window.uid));
+            let querySnapshot = await getDocs(q);
+            console.log(querySnapshot)
+        },
         logout() {
             const auth = getAuth()
             signOut(auth)
@@ -50,6 +102,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+input {
+    border-color: var(--featured);
+}
+
+.rounded-image-modal {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.rounded-image-modal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .rounded-image {
     width: 93px;
     height: 93px;
