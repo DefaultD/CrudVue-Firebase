@@ -87,6 +87,25 @@ export default {
             let querySnapshot = await getDocs(q);
             console.log(querySnapshot)
         },
+        editUser() {
+            // const payload = {
+            //     createdAt: new Date(),
+            //     lastUpdate: new Date(),
+            //     ...this.formOrder
+            // }
+            // const docRef = await addDoc(collection(this.$firebase, 'Pedidos'), payload);
+        },
+
+        async getUsers() {
+            let q = await query(collection(this.$firebase, 'Users'))
+            let querySnapshot = await getDocs(q)
+            this.products = []
+            querySnapshot.forEach((doc) => {
+                let data = doc.data()
+                data.id = doc.id
+                this.products.push(data)
+            });
+        },
         logout() {
             const auth = getAuth()
             signOut(auth)
