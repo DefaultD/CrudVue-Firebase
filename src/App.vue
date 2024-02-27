@@ -38,7 +38,10 @@ export default {
         baseSpinner,
     },
     mounted() {
+        console.log('oi')
+        // this.loading = false
         const auth = getAuth()
+        console.log(auth)
         onAuthStateChanged(auth, (user) => {
             window.uid = user ? user.uid : null
             this.isLogged = !!user
